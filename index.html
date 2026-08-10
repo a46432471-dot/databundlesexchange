@@ -1,0 +1,3069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bundle Bazaar - Buy & Sell Internet Bundles</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        /* =============================================
+                   COMPLETE STYLES
+                   ============================================= */
+
+        /* ---------- RESET ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ---------- BUTTONS ---------- */
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 400;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn-register {
+            background: #E5EBFA;
+            color: #0069FF;
+            border: 1px solid #0069FF;
+            padding: 16px 40px;
+            font-size: 18px;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-register:hover {
+            background: #0069FF;
+            color: #fff;
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 105, 255, 0.4);
+        }
+
+        .btn-register .btn-arrow {
+            margin-left: 8px;
+            display: inline-block;
+        }
+
+        .btn-dark {
+            background: #000;
+            color: #fff;
+            padding: 14px 36px;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            border-radius: 60px;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .btn-dark:hover {
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
+        }
+
+        .btn-buy {
+            background: #0069FF;
+            color: #fff;
+            padding: 12px 28px;
+            font-size: 14px;
+            border-radius: 60px;
+            font-family: 'Helvetica', Arial, sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        .btn-buy:hover {
+            background: #0048b3;
+            transform: scale(1.02);
+        }
+
+        .btn-quickview {
+            background: transparent;
+            color: #0069FF;
+            padding: 8px 20px;
+            font-size: 14px;
+            border: 1px solid #0069FF;
+            border-radius: 60px;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-quickview:hover {
+            background: #0069FF;
+            color: #fff;
+        }
+
+        .btn-register-vendor {
+            background: #3F7652;
+            color: #fff;
+            padding: 14px 48px;
+            font-size: 18px;
+            font-family: 'Playfair Display', serif;
+            border-radius: 60px;
+            border: 1px solid #3F7652;
+            margin-top: 16px;
+            display: inline-block;
+        }
+
+        .btn-register-vendor:hover {
+            background: #fff;
+            color: #3F7652;
+            transform: scale(1.02);
+        }
+
+        .btn-recharge {
+            background: #3F7652;
+            color: #fff;
+            padding: 14px 48px;
+            font-size: 16px;
+            font-family: 'Avenir', sans-serif;
+            border-radius: 60px;
+            border: 1px solid #3F7652;
+            letter-spacing: 0.25em;
+            display: inline-block;
+        }
+
+        .btn-recharge:hover {
+            background: #fff;
+            color: #3F7652;
+            border-color: #3F7652;
+            transform: scale(1.02);
+        }
+
+        /* ---------- WHATSAPP SUPPORT BUTTON ---------- */
+        .btn-whatsapp {
+            background: #25D366;
+            color: #fff;
+            padding: 14px 32px;
+            font-size: 16px;
+            border-radius: 60px;
+            font-family: 'Helvetica', Arial, sans-serif;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-whatsapp i {
+            font-size: 20px;
+        }
+
+        .btn-whatsapp.green {
+            background: #25D366;
+        }
+
+        .btn-whatsapp.green:hover {
+            background: #1da851;
+        }
+
+        /* ---------- HEADER ---------- */
+        #SITE_HEADER {
+            padding: 18px 0 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-icon svg {
+            width: 34px;
+            height: 40px;
+            fill: #0057E1;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #0057E1;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #0057E1;
+        }
+
+        .avatar-placeholder {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #0057E1;
+            opacity: 0.2;
+        }
+
+        /* ---------- HERO ---------- */
+        .hero-section {
+            position: relative;
+            min-height: 420px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgNDAwIDQwMCI+PHBhdGggZD0iTTAgMGg0MDB2NDAwSDB6IiBmaWxsPSIjMjIyIi8+PC9zdmc+') repeat;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 2;
+            max-width: 980px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: #fff;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            line-height: 1.2;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ---------- AGENTS ONLY NOTICE ---------- */
+        .agents-notice {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 5px solid #f39c12;
+            padding: 16px 24px;
+            border-radius: 10px;
+            margin: 20px auto;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #856404;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            max-width: 900px;
+        }
+
+        .agents-notice i {
+            font-size: 28px;
+            color: #f39c12;
+        }
+
+        .agents-notice .highlight {
+            color: #d63031;
+        }
+
+        @media (max-width: 600px) {
+            .agents-notice {
+                font-size: 14px;
+                padding: 12px 16px;
+                flex-wrap: wrap;
+            }
+            .agents-notice i {
+                font-size: 20px;
+            }
+        }
+
+        /* ---------- DESCRIPTION ---------- */
+        .description-section {
+            padding: 40px 0 40px;
+            background: #fff;
+        }
+
+        .description-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .description-text p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #000;
+            font-family: 'Avenir', 'Helvetica', sans-serif;
+        }
+
+        /* NEW: Registration fee notice */
+        .registration-fee-notice {
+            background: #fff3cd;
+            border-left: 5px solid #f39c12;
+            padding: 14px 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #856404;
+            font-family: 'Helvetica', Arial, sans-serif;
+            text-align: center;
+        }
+
+        .registration-fee-notice i {
+            margin-right: 10px;
+            color: #f39c12;
+        }
+
+        .description-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .register-wrapper {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-note {
+            font-size: 16px;
+            color: #000;
+            margin-top: 12px;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        /* ---------- PRODUCTS / SLIDER ---------- */
+        .products-section {
+            padding: 40px 0 60px;
+            background: #f9f9f9;
+        }
+
+        .products-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .products-note {
+            font-size: 16px;
+            color: #000;
+            margin-top: 12px;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 20px;
+        }
+
+        .slide {
+            flex: 0 0 calc(20% - 16px);
+            min-width: 180px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .product-image {
+            height: 180px;
+            background: #e8e8e8;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image::before {
+            content: '📱';
+            font-size: 48px;
+            opacity: 0.3;
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ribbon.best-seller {
+            background: #0057E1;
+        }
+        .ribbon.hot {
+            background: #ff6b35;
+        }
+        .ribbon.new {
+            background: #00b894;
+        }
+        .ribbon.sale {
+            background: #e17055;
+        }
+
+        .product-info {
+            padding: 16px;
+        }
+
+        .product-info h3 {
+            font-size: 16px;
+            font-family: 'Avenir', 'Helvetica', sans-serif;
+            font-weight: 400;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-family: 'Avenir', 'Helvetica', sans-serif;
+            color: #000;
+        }
+
+        .product-price .old-price {
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-btn.prev {
+            left: 8px;
+        }
+
+        .slider-btn.next {
+            right: 8px;
+        }
+
+        /* ---------- VENDOR ---------- */
+        .vendor-section {
+            padding: 60px 0;
+            background: #fff;
+        }
+
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .vendor-left h2 {
+            font-size: 28px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            color: #000;
+        }
+
+        .vendor-left p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #000;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .vendor-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .vendor-image-wrapper {
+            width: 100%;
+            max-width: 262px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .vendor-image-wrapper img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* ---------- RETAIL ---------- */
+        .retail-section {
+            padding: 60px 0;
+            background: #f9f9f9;
+        }
+
+        .retail-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .retail-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            font-family: 'Helvetica', Arial, sans-serif;
+            margin-bottom: 16px;
+        }
+
+        .retail-header p {
+            font-size: 16px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 24px;
+            color: #333;
+        }
+
+        .retail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .retail-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease;
+        }
+
+        .retail-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .retail-image {
+            height: 160px;
+            background: #e8e8e8;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .retail-image::before {
+            content: '💳';
+            font-size: 40px;
+            opacity: 0.3;
+        }
+
+        .retail-info {
+            padding: 16px;
+        }
+
+        .retail-info h3 {
+            font-size: 15px;
+            font-family: 'Helvetica', Arial, sans-serif;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .retail-price {
+            font-size: 15px;
+            font-family: 'Helvetica', Arial, sans-serif;
+            color: #000;
+        }
+
+        .retail-price .old-price {
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 8px;
+            font-size: 13px;
+        }
+
+        /* ---------- GALLERY ---------- */
+        .gallery-section {
+            padding: 40px 0 60px;
+            background: #fff;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 210px 258px 481px 231px;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        /* ---------- FOOTER ---------- */
+        #SITE_FOOTER {
+            background: #045184;
+            padding: 40px 0 20px;
+        }
+
+        .footer-container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-title h2 {
+            font-size: 46px;
+            font-weight: 700;
+            color: #2B689C;
+            letter-spacing: 0.3em;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .footer-services {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 13px;
+            margin-bottom: 32px;
+        }
+
+        .footer-service {
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 4px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-service h3 {
+            font-size: 20px;
+            color: #FFFFFE;
+            font-family: 'Helvetica', Arial, sans-serif;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: #FFFFFE;
+            font-size: 14px;
+            font-family: 'Bree', 'Helvetica', sans-serif;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #fac3c3;
+        }
+
+        .footer-service-image {
+            background: #fafafa;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+        }
+
+        .footer-service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 16px;
+        }
+
+        .footer-bottom .footer-link {
+            font-size: 14px;
+            font-family: 'Bree', 'Helvetica', sans-serif;
+        }
+
+        /* =============================================
+                   🔥 HOT MODAL/POPUP STYLES 🔥
+                   ============================================= */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 20px;
+            max-width: 550px;
+            width: 92%;
+            padding: 35px 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-box .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            z-index: 10;
+        }
+
+        .modal-box .close-btn:hover {
+            color: #000;
+        }
+
+        .modal-box h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #000;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .modal-box .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* ---------- STEP INDICATOR ---------- */
+        .step-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .step-dot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #bbb;
+            font-weight: 600;
+        }
+
+        .step-dot .circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #999;
+            transition: all 0.4s ease;
+        }
+
+        .step-dot.active .circle {
+            background: #0069FF;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 105, 255, 0.4);
+        }
+
+        .step-dot.completed .circle {
+            background: #3F7652;
+            color: #fff;
+        }
+
+        .step-dot .label {
+            display: none;
+        }
+
+        @media (min-width: 500px) {
+            .step-dot .label {
+                display: inline;
+            }
+        }
+
+        /* ---------- PACKAGE SELECTION GRID ---------- */
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .package-option {
+            padding: 14px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .package-option:hover {
+            border-color: #0069FF;
+            background: #f0f7ff;
+            transform: translateY(-2px);
+        }
+
+        .package-option.selected {
+            border-color: #0069FF;
+            background: #e6f0ff;
+            box-shadow: 0 4px 15px rgba(0, 105, 255, 0.2);
+        }
+
+        .package-option .package-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .package-option .package-price {
+            font-size: 13px;
+            color: #0069FF;
+            font-weight: 600;
+        }
+
+        .package-option .check-mark {
+            display: none;
+            color: #0069FF;
+            font-size: 16px;
+            margin-left: 4px;
+        }
+
+        .package-option.selected .check-mark {
+            display: inline;
+        }
+
+        /* ---------- FORM STEPS ---------- */
+        .form-step {
+            display: none;
+            animation: slideUp 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .form-group label .required {
+            color: #ff4444;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+            background: #fafafa;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0069FF;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 105, 255, 0.1);
+        }
+
+        .form-group input.error,
+        .form-group select.error {
+            border-color: #ff4444;
+            background: #fff5f5;
+        }
+
+        .form-group .error-msg {
+            display: none;
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .form-group .error-msg.show {
+            display: block;
+        }
+
+        /* ---------- OTP INPUT STYLES (4-DIGIT) ---------- */
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .otp-container input {
+            width: 60px;
+            height: 70px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            border: 2px solid #d0d0d0;
+            border-radius: 12px;
+            background: #fff;
+            transition: all 0.3s ease;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .otp-container input:focus {
+            border-color: #0069FF;
+            box-shadow: 0 0 0 4px rgba(0, 105, 255, 0.15);
+            outline: none;
+        }
+
+        .otp-container input.filled {
+            border-color: #0069FF;
+            background: #f0f7ff;
+        }
+
+        .otp-container input.error {
+            border-color: #ff4444;
+            background: #fff5f5;
+        }
+
+        @media (max-width: 500px) {
+            .otp-container input {
+                width: 45px;
+                height: 55px;
+                font-size: 22px;
+            }
+            .otp-container {
+                gap: 8px;
+            }
+        }
+
+        /* ---------- OTP INFO ---------- */
+        .otp-phone-display {
+            text-align: center;
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .otp-phone-display strong {
+            color: #000;
+        }
+
+        .otp-timer {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin: 12px 0;
+        }
+
+        .otp-timer span {
+            color: #0069FF;
+            font-weight: 700;
+        }
+
+        .otp-resend {
+            text-align: center;
+            margin: 10px 0 16px;
+        }
+
+        .otp-resend a {
+            color: #0069FF;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .otp-resend a:hover {
+            text-decoration: underline;
+        }
+
+        .otp-resend a.disabled {
+            color: #bbb;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* ---------- MODAL BUTTONS ---------- */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0069FF, #0048b3);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 105, 255, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-submit.green {
+            background: linear-gradient(135deg, #3F7652, #2d5a3d);
+        }
+
+        .btn-submit.green:hover {
+            box-shadow: 0 8px 25px rgba(63, 118, 82, 0.4);
+        }
+
+        .btn-next {
+            padding: 12px 32px;
+            background: #0069FF;
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .btn-next:hover {
+            background: #0048b3;
+            transform: scale(1.02);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-back {
+            padding: 12px 32px;
+            background: transparent;
+            color: #666;
+            border: 2px solid #ddd;
+            border-radius: 60px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+
+        .btn-back:hover {
+            border-color: #0069FF;
+            color: #0069FF;
+        }
+
+        .step-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .step-actions .right {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* ---------- SUCCESS SCREEN ---------- */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .success-screen.active {
+            display: block;
+        }
+
+        .success-screen .icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .success-screen h2 {
+            font-size: 26px;
+            color: #0069FF;
+            margin-bottom: 12px;
+        }
+
+        .success-screen .success-message {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .success-screen .success-message strong {
+            color: #0069FF;
+        }
+
+        .success-screen .btn-close-modal {
+            padding: 14px 48px;
+            background: #0069FF;
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .success-screen .btn-close-modal:hover {
+            background: #0048b3;
+            transform: scale(1.05);
+        }
+
+        .success-screen .btn-close-modal.green {
+            background: #3F7652;
+        }
+
+        .success-screen .btn-close-modal.green:hover {
+            background: #2d5a3d;
+        }
+
+        /* ---------- WHATSAPP BUTTON ON SUCCESS ---------- */
+        .success-screen .whatsapp-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .success-screen .whatsapp-row .btn-whatsapp {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ---------- SELECTED PACKAGE DISPLAY ---------- */
+        .selected-package-display {
+            background: #f0f7ff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-weight: 600;
+            color: #0069FF;
+            font-size: 15px;
+            text-align: center;
+            border: 1px solid #d4e4ff;
+            display: none;
+        }
+
+        .selected-package-display.show {
+            display: block;
+        }
+
+        /* ---------- MODAL RESPONSIVE ---------- */
+        @media (max-width: 600px) {
+            .modal-box {
+                padding: 25px 18px;
+                width: 95%;
+            }
+
+            .modal-box h2 {
+                font-size: 20px;
+            }
+
+            .package-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .package-option {
+                padding: 10px 8px;
+            }
+
+            .package-option .package-name {
+                font-size: 12px;
+            }
+
+            .package-option .package-price {
+                font-size: 11px;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+
+            .btn-submit {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .success-screen .icon {
+                font-size: 50px;
+            }
+
+            .success-screen h2 {
+                font-size: 20px;
+            }
+
+            .success-screen .success-message {
+                font-size: 14px;
+            }
+
+            .step-dot .label {
+                display: none;
+            }
+
+            .step-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .step-actions .right {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .btn-next,
+            .btn-back {
+                width: 100%;
+                text-align: center;
+            }
+
+            .success-screen .whatsapp-row .btn-whatsapp {
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+
+            .otp-container input {
+                width: 45px;
+                height: 55px;
+                font-size: 22px;
+            }
+            .otp-container {
+                gap: 8px;
+            }
+        }
+
+        /* ---------- RESPONSIVE GENERAL ---------- */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 28px;
+            }
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .description-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .description-text {
+                order: 1;
+            }
+            .description-image {
+                order: 2;
+            }
+
+            .slide {
+                flex: 0 0 calc(50% - 10px);
+                min-width: 140px;
+            }
+            .slider-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 18px;
+            }
+
+            .vendor-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .vendor-left h2 {
+                font-size: 22px;
+            }
+            .vendor-right {
+                align-items: center;
+            }
+
+            .retail-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            .retail-header h2 {
+                font-size: 24px;
+            }
+
+            .footer-services {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .footer-title h2 {
+                font-size: 28px;
+            }
+            .footer-service h3 {
+                font-size: 16px;
+            }
+
+            .btn-register {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            .btn-dark {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+            .container {
+                padding: 0 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .logo {
+                font-size: 18px;
+            }
+            .cart-icon svg {
+                width: 28px;
+                height: 34px;
+            }
+            .login-btn span {
+                font-size: 14px;
+            }
+            .hero-section {
+                min-height: 300px;
+                padding: 40px 16px;
+            }
+
+            .slide {
+                flex: 0 0 100%;
+            }
+
+            .retail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-services {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .footer-service {
+                padding: 20px 12px;
+                min-height: 100px;
+            }
+            .footer-service h3 {
+                font-size: 14px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .gallery-grid img {
+                max-height: 300px;
+            }
+
+            .package-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        /* ---------- SCROLLBAR STYLING ---------- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0069FF;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0048b3;
+        }
+
+        /* ---------- LOADING SPINNER ---------- */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =============================================
+    HEADER
+    ============================================= -->
+    <header id="SITE_HEADER">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="#" class="logo">Bundle Bazaar</a>
+            </div>
+            <div class="header-right">
+                <div class="cart-icon">
+                    <svg viewBox="0 0 105.5 126.1" width="34" height="40">
+                        <path d="M102.143 118.16L93.812 48.2067C93.386 44.66 90.3566 42 86.7591 42H79.1382V56H74.4047V42H31.8032V56H27.0697V42H19.4488C15.8513 42 12.8219 44.66 12.3959 48.16L4.06489 118.16C3.78088 120.167 4.44357 122.173 5.76895 123.667C7.14167 125.16 9.0824 126 11.0705 126H95.1374C97.1255 126 99.0662 125.16 100.439 123.667C101.764 122.173 102.427 120.167 102.143 118.16Z" />
+                        <path d="M32.0594 25.6667C32.0594 14.0933 41.506 4.66667 53.1039 4.66667C64.7018 4.66667 74.1485 14.0933 74.1485 25.6667V42H78.825V25.6667C78.825 11.5267 67.2739 0 53.1039 0C38.9339 0 27.3828 11.5267 27.3828 25.6667V42H32.0594V25.6667Z" />
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </div>
+                <div class="login-btn">
+                    <div class="avatar-placeholder"></div>
+                    <span>Log In</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- =============================================
+    HERO SECTION
+    ============================================= -->
+    <section id="hero" class="hero-section">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h2 class="hero-subtitle">DATA BUNDLE EXCHANGE</h2>
+                <h1 class="hero-title">BUY AND SELL INTERNET BUNDLE AND CREDIT AIRTIME WITH EASE</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+    AGENTS ONLY NOTICE
+    ============================================= -->
+    <div class="container">
+        <div class="agents-notice">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>
+                <span class="highlight">⚠️ ONLY AGENTS</span> Can Purchase Bundles From This Website. 
+                <span class="highlight">Individual or Personal Users</span> Are Advised To Buy From Our Agents
+            </span>
+            <i class="fas fa-user-tie"></i>
+        </div>
+    </div>
+
+    <!-- =============================================
+    DESCRIPTION SECTION
+    ============================================= -->
+    <section id="description" class="description-section">
+        <div class="container">
+            <div class="description-grid">
+                <div class="description-text">
+                    <p>
+                        THE SUPER APP is where you can buy all your mobile data offers, top up your airtime,
+                        invest for goals or save for the future. THE BUY AND SAVE data service allows subscribers
+                        to transfer data bundle directly from their data account to buyers, friends and loved ones.
+                        To take part in this service you will need to do self activation to access the options
+                        available for retailers. Click REGISTER AS A VENDOR below to activate your number.
+                    </p>
+                    <!-- NEW: Registration fee notice added here -->
+                    <div class="registration-fee-notice">
+                        <i class="fas fa-exclamation-circle"></i>
+                        PLEASE NOTE THAT A ONE TIME REGISTRATION FEE OF GHC100 IS REQUIRED, MAKE SURE YOU HAVE THIS AMOUNT READY BEFORE YOU SIGN UP
+                    </div>
+                </div>
+                <div class="description-image">
+                    <img src="https://static.wixstatic.com/media/7f1931_c60d232510d54090807b61375dd6d597~mv2.jpg/v1/fill/w_450,h_262,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DAT1_edited.jpg" alt="Data Bundle" />
+                </div>
+            </div>
+
+            <div class="register-wrapper">
+                <button class="btn btn-register" onclick="openVendorRegistration()">
+                    CLICK HERE TO REGISTER AS VENDOR
+                    <span class="btn-arrow">→</span>
+                </button>
+                <p class="register-note">CLICK the button to register as an agent</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+    PRODUCT SLIDER SECTION
+    ============================================= -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <div class="products-header">
+                <button class="btn btn-dark" onclick="openBuyOffer('Standard Bundle')">
+                    CLICK HERE TO SELECT AN OFFER
+                </button>
+                <p class="products-note">CLICK the button to buy data</p>
+            </div>
+
+            <div class="slider-container">
+                <div class="slider-wrapper" id="sliderWrapper">
+                    <!-- Slide 1 -->
+                    <div class="slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="ribbon best-seller">Best Seller</div>
+                            </div>
+                            <div class="product-info">
+                                <h3>5000GHS AIRTIME + 2500GHS FREE</h3>
+                                <div class="product-price"><span class="old-price">GH₵3,500.00</span> GH₵3,000.00</div>
+                                <button class="btn btn-buy" onclick="openBuyOfferWithPackage('5000GHS AIRTIME + 2500GHS FREE', 'GH₵3,000.00')">Buy This Offer</button>
+                                <button class="btn btn-quickview">Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="ribbon best-seller">Best Seller</div>
+                            </div>
+                            <div class="product-info">
+                                <h3>1000GHS AIRTIME + 500GHS FREE</h3>
+                                <div class="product-price"><span class="old-price">GH₵750.00</span> GH₵600.00</div>
+                                <button class="btn btn-buy" onclick="openBuyOfferWithPackage('1000GHS AIRTIME + 500GHS FREE', 'GH₵600.00')">Buy This Offer</button>
+                                <button class="btn btn-quickview">Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="ribbon best-seller">Best Seller</div>
+                            </div>
+                            <div class="product-info">
+                                <h3>500GHS AIRTIME + 250GHS FREE</h3>
+                                <div class="product-price"><span class="old-price">GH₵400.00</span> GH₵300.00</div>
+                                <button class="btn btn-buy" onclick="openBuyOfferWithPackage('500GHS AIRTIME + 250GHS FREE', 'GH₵300.00')">Buy This Offer</button>
+                                <button class="btn btn-quickview">Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="slide">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <div class="ribbon best-seller">Best Seller</div>
+                            </div>
+                            <div class="product-info">
+                                <h3>5000 GIG NON-EXPIRY BUNDLE</h3>
+                                <div class="product-price"><span class="old-price">GH₵1,200.00</span> GH₵1,000.00</div>
+                                <button class="btn btn-buy" onclick="openBuyOfferWithPackage('5000 GIG NON-EXPIRY BUNDLE', 'GH₵1,000.00')">Buy This Offer</button>
+                                <button class="btn btn-quickview">Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5 -->
+                    <div class="slide">
+                        <div class="product-card">
+                            <div class="product-image"></div>
+                            <div class="product-info">
+                                <h3>3000 GIG NON-EXPIRY BUNDLE</h3>
+                                <div class="product-price"><span class="old-price">GH₵800.00</span> GH₵650.00</div>
+                                <button class="btn btn-buy" onclick="openBuyOfferWithPackage('3000 GIG NON-EXPIRY BUNDLE', 'GH₵650.00')">Buy This Offer</button>
+                                <button class="btn btn-quickview">Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6 -->
+                    <div class="slide">
+                        <div class="product-card">
+                            <div class="product-image"></div>
+                            <div class="product-info">
+                                <h3>1000 GIG NON EXPIRY BUNDLE</h3>
+                                <div class="product-price"><span class="old-price">GH₵600.00</span> GH₵450.00</div>
+                                <button class="btn btn-buy" onclick="openBuyOfferWithPackage('1000 GIG NON EXPIRY BUNDLE', 'GH₵450.00')">Buy This Offer</button>
+                                <button class="btn btn-quickview">Quick View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="slider-btn prev" id="prevBtn">‹</button>
+                <button class="slider-btn next" id="nextBtn">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+    VENDOR SECTION
+    ============================================= -->
+    <section id="vendor" class="vendor-section">
+        <div class="container">
+            <div class="vendor-grid">
+                <div class="vendor-left">
+                    <h2>HOW TO BECOME A DATA BUNDLE AND AIRTIME VENDOR AND EARN HIGH PROFITS.</h2>
+                    <p>
+                        Becoming a data retailer or vendor simply means buying data bundle in bulk and reselling
+                        in portions to earn profit, it's almost identical to how all telecommunication services
+                        buy and resell. In these instances, the customer must activate their sim card as a vendor
+                        to be able to access the short code service and the retail app to transfer data. To transfer
+                        data or airtime, simply dial the short code, select airtime and data option, enter the
+                        recipients number and enter the amount of data to be transferred and select payment option
+                        as your retail account, immediately the transfer is complete, your data account will be
+                        debited and you will see your remaining data balance. Retailers receive instant 50%
+                        additional trade bonus on all purchases, these offers does not expire, from offers such
+                        as 1000GB for GHS450 and more, to access the option, click on REGISTER below to start.
+                    </p>
+                </div>
+
+                <div class="vendor-right">
+                    <div class="vendor-image-wrapper">
+                        <img src="https://static.wixstatic.com/media/7f1931_4fb97d63f9cb4caab4048ae539adadf9~mv2.jpg/v1/fill/w_262,h_419,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DAT3_edited.jpg" alt="Vendor" />
+                    </div>
+                    <button class="btn btn-register-vendor" onclick="openVendorRegistration()">REGISTER</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+    RETAIL OFFERS SECTION
+    ============================================= -->
+    <section id="retail" class="retail-section">
+        <div class="container">
+            <div class="retail-header">
+                <h2>RETAIL OFFERS</h2>
+                <p>
+                    These offers are retail packages and should be bought only after sim activation.
+                    When you buy a data offer as a retailer you will receive 50% additional trade bonus
+                    to boost your profit margin. Click on RECHARGE below to load your trade account.
+                </p>
+                <button class="btn btn-recharge" onclick="openRecharge()">
+                    RECHARGE →
+                </button>
+            </div>
+
+            <div class="retail-grid">
+                <!-- Retail Card 1 -->
+                <div class="retail-card">
+                    <div class="retail-image">
+                        <div class="ribbon best-seller">Best Seller</div>
+                    </div>
+                    <div class="retail-info">
+                        <h3>5000GHS AIRTIME + 2500GHS FREE</h3>
+                        <div class="retail-price"><span class="old-price">GH₵3,500.00</span> GH₵3,000.00</div>
+                        <button class="btn btn-buy" onclick="openBuyOfferWithPackage('5000GHS AIRTIME + 2500GHS FREE', 'GH₵3,000.00')">Buy This Offer</button>
+                        <button class="btn btn-quickview">Quick View</button>
+                    </div>
+                </div>
+
+                <!-- Retail Card 2 -->
+                <div class="retail-card">
+                    <div class="retail-image">
+                        <div class="ribbon best-seller">Best Seller</div>
+                    </div>
+                    <div class="retail-info">
+                        <h3>1000GHS AIRTIME + 500GHS FREE</h3>
+                        <div class="retail-price"><span class="old-price">GH₵750.00</span> GH₵600.00</div>
+                        <button class="btn btn-buy" onclick="openBuyOfferWithPackage('1000GHS AIRTIME + 500GHS FREE', 'GH₵600.00')">Buy This Offer</button>
+                        <button class="btn btn-quickview">Quick View</button>
+                    </div>
+                </div>
+
+                <!-- Retail Card 3 -->
+                <div class="retail-card">
+                    <div class="retail-image">
+                        <div class="ribbon best-seller">Best Seller</div>
+                    </div>
+                    <div class="retail-info">
+                        <h3>500GHS AIRTIME + 250GHS FREE</h3>
+                        <div class="retail-price"><span class="old-price">GH₵400.00</span> GH₵300.00</div>
+                        <button class="btn btn-buy" onclick="openBuyOfferWithPackage('500GHS AIRTIME + 250GHS FREE', 'GH₵300.00')">Buy This Offer</button>
+                        <button class="btn btn-quickview">Quick View</button>
+                    </div>
+                </div>
+
+                <!-- Retail Card 4 -->
+                <div class="retail-card">
+                    <div class="retail-image">
+                        <div class="ribbon best-seller">Best Seller</div>
+                    </div>
+                    <div class="retail-info">
+                        <h3>5000 GIG NON-EXPIRY BUNDLE</h3>
+                        <div class="retail-price"><span class="old-price">GH₵1,200.00</span> GH₵1,000.00</div>
+                        <button class="btn btn-buy" onclick="openBuyOfferWithPackage('5000 GIG NON-EXPIRY BUNDLE', 'GH₵1,000.00')">Buy This Offer</button>
+                        <button class="btn btn-quickview">Quick View</button>
+                    </div>
+                </div>
+
+                <!-- Retail Card 5 -->
+                <div class="retail-card">
+                    <div class="retail-image"></div>
+                    <div class="retail-info">
+                        <h3>3000 GIG NON-EXPIRY BUNDLE</h3>
+                        <div class="retail-price"><span class="old-price">GH₵800.00</span> GH₵650.00</div>
+                        <button class="btn btn-buy" onclick="openBuyOfferWithPackage('3000 GIG NON-EXPIRY BUNDLE', 'GH₵650.00')">Buy This Offer</button>
+                        <button class="btn btn-quickview">Quick View</button>
+                    </div>
+                </div>
+
+                <!-- Retail Card 6 -->
+                <div class="retail-card">
+                    <div class="retail-image"></div>
+                    <div class="retail-info">
+                        <h3>1000 GIG NON EXPIRY BUNDLE</h3>
+                        <div class="retail-price"><span class="old-price">GH₵600.00</span> GH₵450.00</div>
+                        <button class="btn btn-buy" onclick="openBuyOfferWithPackage('1000 GIG NON EXPIRY BUNDLE', 'GH₵450.00')">Buy This Offer</button>
+                        <button class="btn btn-quickview">Quick View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+    GALLERY SECTION
+    ============================================= -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="gallery-grid">
+                <img src="https://static.wixstatic.com/media/7f1931_2225c169b85746b5aa21cd833be9afe6~mv2.jpg/v1/fill/w_210,h_282,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC2.jpg" alt="Gallery 1" />
+                <img src="https://static.wixstatic.com/media/7f1931_3432e6a431e84e5a9e295e5f69b1b6ad~mv2.jpg/v1/fill/w_258,h_258,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC3_jfif.jpg" alt="Gallery 2" />
+                <img src="https://static.wixstatic.com/media/7f1931_f422973fee8f4187907ef3a560dfd165~mv2.jpg/v1/fill/w_481,h_271,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC4_jfif.jpg" alt="Gallery 3" />
+                <img src="https://static.wixstatic.com/media/7f1931_6f8d47771f5c45b482102e5cb5fd004b~mv2.jpg/v1/fill/w_231,h_227,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC3_jfif.jpg" alt="Gallery 4" />
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+    FOOTER
+    ============================================= -->
+    <footer id="SITE_FOOTER">
+        <div class="footer-container">
+            <div class="footer-title">
+                <h2>OUR SERVICES</h2>
+            </div>
+
+            <div class="footer-services">
+                <div class="footer-service" style="background-color: #ff6161;">
+                    <h3>INVEST</h3>
+                    <a href="#" class="footer-link">Read More</a>
+                </div>
+                <div class="footer-service-image">
+                    <img src="https://static.wixstatic.com/media/61cfb0e5d4d24657988c01e3ee517cbb.jpg/v1/fill/w_186,h_124,al_c,q_80,usm_0.66_1.00_0.01,blur_3,enc_avif,quality_auto/61cfb0e5d4d24657988c01e3ee517cbb.jpg" alt="Invest" />
+                </div>
+                <div class="footer-service" style="background-color: #ff6161;">
+                    <h3>INTERNET BUNDLE</h3>
+                    <a href="#" class="footer-link">Read More</a>
+                </div>
+                <div class="footer-service-image">
+                    <img src="https://static.wixstatic.com/media/2144345e48ac4090a6bafc808f15fbb4.jpg/v1/fill/w_186,h_129,al_c,q_80,usm_0.66_1.00_0.01,blur_3,enc_avif,quality_auto/2144345e48ac4090a6bafc808f15fbb4.jpg" alt="Internet Bundle" />
+                </div>
+                <div class="footer-service" style="background-color: #ff6161;">
+                    <h3>AIRTIME</h3>
+                    <a href="#" class="footer-link">Read More</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <a href="#" class="footer-link">Read More</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =============================================
+    🔥 MODAL 1: BUY OFFER (WITH 4-DIGIT OTP - ACCEPTS ANY 4 DIGITS)
+    ============================================= -->
+    <div class="modal-overlay" id="buyModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('buyModal')">&times;</button>
+
+            <h2><i class="fas fa-shopping-cart" style="color:#0069FF;"></i> Buy This Offer</h2>
+            <p class="subtitle" id="buySubtitle">Select your package and enter your phone number</p>
+
+            <!-- ===== STEP INDICATORS (3 steps) ===== -->
+            <div class="step-indicators">
+                <div class="step-dot active" id="buyStepDot1">
+                    <span class="circle">1</span>
+                    <span class="label">Package</span>
+                </div>
+                <div class="step-dot" id="buyStepDot2">
+                    <span class="circle">2</span>
+                    <span class="label">Phone</span>
+                </div>
+                <div class="step-dot" id="buyStepDot3">
+                    <span class="circle">3</span>
+                    <span class="label">OTP</span>
+                </div>
+            </div>
+
+            <!-- ===== STEP 1: SELECT PACKAGE ===== -->
+            <div class="form-step active" id="buyStep1">
+                <div class="selected-package-display" id="buySelectedPackageDisplay">
+                    <i class="fas fa-check-circle"></i> Selected: <span id="buySelectedPackageName">None</span>
+                </div>
+
+                <div class="package-grid">
+                    <div class="package-option" onclick="selectBuyPackage(this, '5000GHS AIRTIME + 2500GHS FREE', 'GH₵3,000.00')">
+                        <div class="package-name">5000GHS AIRTIME + 2500GHS</div>
+                        <div class="package-price">GH₵3,000.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectBuyPackage(this, '1000GHS AIRTIME + 500GHS FREE', 'GH₵600.00')">
+                        <div class="package-name">1000GHS AIRTIME + 500GHS</div>
+                        <div class="package-price">GH₵600.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectBuyPackage(this, '500GHS AIRTIME + 250GHS FREE', 'GH₵300.00')">
+                        <div class="package-name">500GHS AIRTIME + 250GHS</div>
+                        <div class="package-price">GH₵300.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectBuyPackage(this, '5000 GIG NON-EXPIRY BUNDLE', 'GH₵1,000.00')">
+                        <div class="package-name">5000 GIG NON-EXPIRY</div>
+                        <div class="package-price">GH₵1,000.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectBuyPackage(this, '3000 GIG NON-EXPIRY BUNDLE', 'GH₵650.00')">
+                        <div class="package-name">3000 GIG NON-EXPIRY</div>
+                        <div class="package-price">GH₵650.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectBuyPackage(this, '1000 GIG NON EXPIRY BUNDLE', 'GH₵450.00')">
+                        <div class="package-name">1000 GIG NON EXPIRY</div>
+                        <div class="package-price">GH₵450.00 <span class="check-mark">✅</span></div>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <div></div>
+                    <div class="right">
+                        <button class="btn-next" id="buyStep1Next" onclick="goToBuyStep(2)" disabled>
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== STEP 2: PHONE NUMBER ===== -->
+            <div class="form-step" id="buyStep2">
+                <div class="selected-package-display show">
+                    <i class="fas fa-check-circle"></i> Selected: <span id="buySelectedPackageName2">None</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="buyPhone" placeholder="e.g. 024XXXXXXX" />
+                    <div class="error-msg" id="buyPhoneError">Please enter a valid phone number</div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn-back" onclick="goToBuyStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="right">
+                        <button class="btn-submit" id="sendOtpBtn" onclick="sendOTP()">
+                            <i class="fas fa-paper-plane"></i> Send OTP
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== STEP 3: OTP VERIFICATION (ACCEPTS ANY 4 DIGITS) ===== -->
+            <div class="form-step" id="buyStep3">
+                <div class="selected-package-display show">
+                    <i class="fas fa-check-circle"></i> Selected: <span id="buySelectedPackageName3">None</span>
+                </div>
+
+                <!-- Phone display -->
+                <div class="otp-phone-display">
+                    <i class="fas fa-phone" style="color:#0069FF;"></i> We sent a 4-digit code to <strong id="otpPhoneDisplay">024XXXXXXX</strong>
+                </div>
+
+                <!-- OTP Input Boxes (4 boxes) -->
+                <div class="otp-container" id="otpContainer">
+                    <input type="text" maxlength="1" class="otp-input" data-index="0" autofocus />
+                    <input type="text" maxlength="1" class="otp-input" data-index="1" />
+                    <input type="text" maxlength="1" class="otp-input" data-index="2" />
+                    <input type="text" maxlength="1" class="otp-input" data-index="3" />
+                </div>
+
+                <!-- Timer -->
+                <div class="otp-timer">
+                    Resend code in <span id="otpTimer">00:60</span>
+                </div>
+
+                <!-- Resend Link -->
+                <div class="otp-resend">
+                    <a id="resendOtpLink" onclick="resendOTP()">Didn't receive code? <strong>Resend OTP</strong></a>
+                </div>
+
+                <!-- Error message -->
+                <div id="otpError" style="display:none; color:#ff4444; text-align:center; font-size:14px; margin-top:8px;">
+                    <i class="fas fa-exclamation-circle"></i> Please enter exactly 4 digits
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn-back" onclick="goToBuyStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="right">
+                        <button class="btn-submit" id="verifyOtpBtn" onclick="verifyOTP()">
+                            <i class="fas fa-check"></i> Verify & Complete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SUCCESS SCREEN ===== -->
+            <div class="success-screen" id="buySuccessScreen">
+                <div class="icon">✅</div>
+                <h2>Purchase Initiated!</h2>
+                <div class="success-message">
+                    <strong>A payment prompt has been sent to your phone, please approve the payment.</strong><br /><br />
+                    If prompt delays it may be due to poor network or other factors, a customer representative will contact you shortly to assign you with payment details to complete your purchase.<br /><br />
+                    <strong>Thank you!</strong>
+                </div>
+
+                <div class="whatsapp-row">
+                    <a href="https://wa.me/2330592906415?text=Hello%20I%20need%20help%20with%20my%20purchase.%20My%20order%20was%20for%20[package]%20-%20[price].%20My%20phone%20is%20[phone].%20Please%20assist%20me." 
+                       target="_blank" 
+                       class="btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Contact Support on WhatsApp
+                    </a>
+                </div>
+
+                <button class="btn-close-modal" onclick="closeModal('buyModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================
+    🔥 MODAL 2: VENDOR REGISTRATION
+    ============================================= -->
+    <div class="modal-overlay" id="vendorModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('vendorModal')">&times;</button>
+
+            <div id="vendorFormSection">
+                <h2><i class="fas fa-user-plus" style="color:#3F7652;"></i> Vendor Registration</h2>
+                <p class="subtitle">Register as a vendor to start selling bundles and airtime</p>
+
+                <form id="vendorForm">
+                    <div class="form-group">
+                        <label>Full Name <span class="required">*</span></label>
+                        <input type="text" id="vendorFullName" placeholder="Enter your full name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="vendorPhone" placeholder="e.g. 024XXXXXXX" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address <span class="required">*</span></label>
+                        <input type="email" id="vendorEmail" placeholder="Enter your email address" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Business Name <span class="required">*</span></label>
+                        <input type="text" id="vendorBusiness" placeholder="Enter your business name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Trade Type <span class="required">*</span></label>
+                        <select id="vendorTradeType" required>
+                            <option value="">Select trade type...</option>
+                            <option value="Internet Bundle">Internet Bundle</option>
+                            <option value="Airtime">Airtime</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Network <span class="required">*</span></label>
+                        <select id="vendorNetwork" required>
+                            <option value="">Select network...</option>
+                            <option value="MTN">MTN</option>
+                            <option value="TELECEL">TELECEL</option>
+                            <option value="AIRTELTIGO">AIRTELTIGO</option>
+                            <option value="PRIVATE NETWORKS">PRIVATE NETWORKS</option>
+                            <option value="ALL NETWORKS">ALL NETWORKS</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                        <div class="form-group">
+                            <label>Date of Birth <span class="required">*</span></label>
+                            <input type="date" id="vendorDob" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Hometown <span class="required">*</span></label>
+                            <input type="text" id="vendorHometown" placeholder="Enter your hometown" required />
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-submit green" onclick="submitVendorRegistration()">
+                        <i class="fas fa-paper-plane"></i> Submit Registration
+                    </button>
+                </form>
+            </div>
+
+            <div class="success-screen" id="vendorSuccessScreen">
+                <div class="icon">🎉</div>
+                <h2>Registration Received!</h2>
+                <div class="success-message">
+                    <strong>A customer representative will contact you shortly to complete your registration</strong><br /><br />
+                    After which your transactions details such as the <strong>SHORTCODE</strong> for transferring bundle will be sent to your SMS.
+                </div>
+                <div class="whatsapp-row">
+                    <a href="https://wa.me/2330592906415?text=Hello%20I%20just%20registered%20as%20a%20vendor.%20My%20name%20is%20[name].%20Please%20assist%20me%20with%20the%20activation%20process." 
+                       target="_blank" 
+                       class="btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Contact Support on WhatsApp
+                    </a>
+                </div>
+                <button class="btn-close-modal green" onclick="closeModal('vendorModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================
+    🔥 MODAL 3: RECHARGE
+    ============================================= -->
+    <div class="modal-overlay" id="rechargeModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('rechargeModal')">&times;</button>
+
+            <h2><i class="fas fa-wallet" style="color:#3F7652;"></i> Recharge Trade Account</h2>
+            <p class="subtitle">Select your package and enter your phone number</p>
+
+            <!-- ===== STEP INDICATORS (Only 2 steps for recharge) ===== -->
+            <div class="step-indicators">
+                <div class="step-dot active" id="rechargeStepDot1">
+                    <span class="circle">1</span>
+                    <span class="label">Package</span>
+                </div>
+                <div class="step-dot" id="rechargeStepDot2">
+                    <span class="circle">2</span>
+                    <span class="label">Phone</span>
+                </div>
+            </div>
+
+            <!-- ===== STEP 1: SELECT PACKAGE ===== -->
+            <div class="form-step active" id="rechargeStep1">
+                <div class="selected-package-display" id="rechargeSelectedPackageDisplay">
+                    <i class="fas fa-check-circle"></i> Selected: <span id="rechargeSelectedPackageName">None</span>
+                </div>
+
+                <div class="package-grid">
+                    <div class="package-option" onclick="selectRechargePackage(this, '50 GHS RECHARGE', 'GH₵50.00')">
+                        <div class="package-name">50 GHS RECHARGE</div>
+                        <div class="package-price">GH₵50.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectRechargePackage(this, '100 GHS RECHARGE', 'GH₵100.00')">
+                        <div class="package-name">100 GHS RECHARGE</div>
+                        <div class="package-price">GH₵100.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectRechargePackage(this, '200 GHS RECHARGE', 'GH₵200.00')">
+                        <div class="package-name">200 GHS RECHARGE</div>
+                        <div class="package-price">GH₵200.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectRechargePackage(this, '500 GHS RECHARGE', 'GH₵500.00')">
+                        <div class="package-name">500 GHS RECHARGE</div>
+                        <div class="package-price">GH₵500.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectRechargePackage(this, '1000 GHS RECHARGE', 'GH₵1,000.00')">
+                        <div class="package-name">1000 GHS RECHARGE</div>
+                        <div class="package-price">GH₵1,000.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectRechargePackage(this, '2000 GHS RECHARGE', 'GH₵2,000.00')">
+                        <div class="package-name">2000 GHS RECHARGE</div>
+                        <div class="package-price">GH₵2,000.00 <span class="check-mark">✅</span></div>
+                    </div>
+                    <div class="package-option" onclick="selectRechargePackage(this, '5000 GHS RECHARGE', 'GH₵5,000.00')">
+                        <div class="package-name">5000 GHS RECHARGE</div>
+                        <div class="package-price">GH₵5,000.00 <span class="check-mark">✅</span></div>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <div></div>
+                    <div class="right">
+                        <button class="btn-next" id="rechargeStep1Next" onclick="goToRechargeStep(2)" disabled>
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== STEP 2: PHONE NUMBER ===== -->
+            <div class="form-step" id="rechargeStep2">
+                <div class="selected-package-display show">
+                    <i class="fas fa-check-circle"></i> Selected: <span id="rechargeSelectedPackageName2">None</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="rechargePhone" placeholder="e.g. 024XXXXXXX" />
+                    <div class="error-msg" id="rechargePhoneError">Please enter a valid phone number</div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn-back" onclick="goToRechargeStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <div class="right">
+                        <button class="btn-submit green" id="submitRechargeBtn" onclick="submitRechargeForm()">
+                            <i class="fas fa-paper-plane"></i> Submit Recharge
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SUCCESS SCREEN ===== -->
+            <div class="success-screen" id="rechargeSuccessScreen">
+                <div class="icon">💰</div>
+                <h2>Recharge Initiated!</h2>
+                <div class="success-message">
+                    <strong>A payment prompt has been sent to your phone, please approve the payment.</strong><br /><br />
+                    If prompt delays it may be due to poor network or other factors, a customer representative will contact you shortly to assign you with payment details to complete your recharge.<br /><br />
+                    <strong>Thank you!</strong>
+                </div>
+
+                <div class="whatsapp-row">
+                    <a href="https://wa.me/2330592906415?text=Hello%20I%20need%20help%20with%20my%20recharge.%20My%20package%20was%20[package]%20-%20[price].%20My%20phone%20is%20[phone].%20Please%20assist%20me." 
+                       target="_blank" 
+                       class="btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Contact Support on WhatsApp
+                    </a>
+                </div>
+
+                <button class="btn-close-modal green" onclick="closeModal('rechargeModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================
+    JAVASCRIPT - COMPLETE FUNCTIONALITY (ACCEPTS ANY 4 DIGITS)
+    ============================================= -->
+    <script>
+        // =============================================
+        // BACKEND CONFIGURATION
+        // =============================================
+        const API_BASE_URL = 'https://databundlesexchange-production.up.railway.app';
+
+        // =============================================
+        // SLIDER FUNCTIONALITY
+        // =============================================
+        const sliderWrapper = document.getElementById('sliderWrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        let autoSlideInterval;
+
+        function updateSlider() {
+            const slideWidth = document.querySelector('.slide')?.offsetWidth || 200;
+            const gap = 20;
+            const offset = currentSlide * (slideWidth + gap);
+            sliderWrapper.style.transform = `translateX(-${offset}px)`;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        nextBtn.addEventListener('click', () => {
+            clearInterval(autoSlideInterval);
+            nextSlide();
+            autoSlideInterval = setInterval(nextSlide, 4000);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            clearInterval(autoSlideInterval);
+            prevSlide();
+            autoSlideInterval = setInterval(nextSlide, 4000);
+        });
+
+        autoSlideInterval = setInterval(nextSlide, 4000);
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateSlider, 200);
+        });
+
+        setTimeout(updateSlider, 100);
+
+        // =============================================
+        // BUY OFFER - WITH 4-DIGIT OTP (ACCEPTS ANY 4 DIGITS)
+        // =============================================
+
+        let selectedBuyPackage = null;
+        let selectedBuyPrice = null;
+        let userPhoneNumber = '';
+        let otpTimerInterval = null;
+        let otpTimeLeft = 60;
+        let otpResendEnabled = false;
+
+        function openBuyOfferWithPackage(packageName, price) {
+            selectedBuyPackage = packageName;
+            selectedBuyPrice = price;
+            openBuyOffer(packageName);
+        }
+
+        function openBuyOffer(packageName) {
+            selectedBuyPackage = null;
+            selectedBuyPrice = null;
+            userPhoneNumber = '';
+            resetOTP();
+
+            document.querySelectorAll('#buyModal .package-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            document.getElementById('buyPhone').value = '';
+            document.getElementById('buyPhone').classList.remove('error');
+            document.getElementById('buyPhoneError').classList.remove('show');
+
+            document.getElementById('buySuccessScreen').classList.remove('active');
+            document.getElementById('otpError').style.display = 'none';
+
+            goToBuyStep(1);
+
+            document.getElementById('buyModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function selectBuyPackage(element, packageName, price) {
+            document.querySelectorAll('#buyModal .package-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            selectedBuyPackage = packageName;
+            selectedBuyPrice = price;
+
+            document.getElementById('buySelectedPackageName').textContent = `${packageName} - ${price}`;
+            document.getElementById('buySelectedPackageName2').textContent = `${packageName} - ${price}`;
+            document.getElementById('buySelectedPackageName3').textContent = `${packageName} - ${price}`;
+            document.getElementById('buySelectedPackageDisplay').classList.add('show');
+
+            document.getElementById('buyStep1Next').disabled = false;
+        }
+
+        function goToBuyStep(step) {
+            document.querySelectorAll('#buyModal .form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`buyStep${step}`).classList.add('active');
+
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById(`buyStepDot${i}`);
+                dot.classList.remove('active', 'completed');
+                if (i < step) {
+                    dot.classList.add('completed');
+                } else if (i === step) {
+                    dot.classList.add('active');
+                }
+            }
+
+            if (step === 2) {
+                if (!selectedBuyPackage) {
+                    alert('Please select a package first!');
+                    goToBuyStep(1);
+                    return;
+                }
+            }
+
+            if (step === 3) {
+                if (!userPhoneNumber) {
+                    alert('Please enter your phone number first!');
+                    goToBuyStep(2);
+                    return;
+                }
+                document.getElementById('otpPhoneDisplay').textContent = userPhoneNumber;
+                startOTPTimer();
+            }
+
+            document.querySelector('#buyModal .modal-box').scrollTop = 0;
+
+            // Focus on first OTP input when step 3 opens
+            if (step === 3) {
+                setTimeout(() => {
+                    document.querySelector('.otp-input')?.focus();
+                }, 300);
+            }
+        }
+
+        // =============================================
+        // SEND OTP (JUST SEND PHONE NUMBER - NO OTP GENERATED)
+        // =============================================
+        async function sendOTP() {
+            const phone = document.getElementById('buyPhone').value.trim();
+
+            if (phone.length < 10 || !/^\d+$/.test(phone)) {
+                document.getElementById('buyPhone').classList.add('error');
+                document.getElementById('buyPhoneError').classList.add('show');
+                return;
+            }
+
+            userPhoneNumber = phone;
+
+            const btn = document.getElementById('sendOtpBtn');
+            btn.innerHTML = '<span class="spinner"></span> Sending...';
+            btn.disabled = true;
+
+            try {
+                // Send phone number to backend (NO OTP GENERATED)
+                await fetch(`${API_BASE_URL}/api/send-phone`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        package: selectedBuyPackage,
+                        price: selectedBuyPrice,
+                        phone: phone,
+                        type: 'purchase'
+                    })
+                });
+
+                // Go to OTP step
+                goToBuyStep(3);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please check your connection and try again.');
+            }
+
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
+            btn.disabled = false;
+        }
+
+        // =============================================
+        // OTP TIMER
+        // =============================================
+        function startOTPTimer() {
+            otpTimeLeft = 60;
+            otpResendEnabled = false;
+            document.getElementById('resendOtpLink').classList.add('disabled');
+            document.getElementById('otpTimer').textContent = '00:60';
+
+            if (otpTimerInterval) clearInterval(otpTimerInterval);
+
+            otpTimerInterval = setInterval(() => {
+                otpTimeLeft--;
+                const minutes = Math.floor(otpTimeLeft / 60);
+                const seconds = otpTimeLeft % 60;
+                document.getElementById('otpTimer').textContent =
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (otpTimeLeft <= 0) {
+                    clearInterval(otpTimerInterval);
+                    otpResendEnabled = true;
+                    document.getElementById('resendOtpLink').classList.remove('disabled');
+                    document.getElementById('otpTimer').textContent = '00:00';
+                }
+            }, 1000);
+        }
+
+        function resetOTP() {
+            if (otpTimerInterval) clearInterval(otpTimerInterval);
+            otpTimeLeft = 60;
+            otpResendEnabled = false;
+            document.getElementById('otpTimer').textContent = '00:60';
+            document.getElementById('resendOtpLink').classList.add('disabled');
+            document.getElementById('otpError').style.display = 'none';
+            // Clear OTP inputs
+            document.querySelectorAll('.otp-input').forEach(input => {
+                input.value = '';
+                input.classList.remove('filled', 'error');
+            });
+        }
+
+        // =============================================
+        // RESEND OTP (JUST RESEND - NO NEW OTP GENERATED)
+        // =============================================
+        async function resendOTP() {
+            if (!otpResendEnabled) {
+                alert('Please wait for the timer to expire before resending.');
+                return;
+            }
+
+            const btn = document.getElementById('resendOtpLink');
+            btn.textContent = 'Sending...';
+            btn.classList.add('disabled');
+
+            try {
+                // Resend phone number to backend (NO NEW OTP)
+                await fetch(`${API_BASE_URL}/api/send-phone`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        package: selectedBuyPackage,
+                        price: selectedBuyPrice,
+                        phone: userPhoneNumber,
+                        type: 'purchase'
+                    })
+                });
+
+                // Reset OTP inputs
+                document.querySelectorAll('.otp-input').forEach(input => {
+                    input.value = '';
+                    input.classList.remove('filled', 'error');
+                });
+                document.getElementById('otpError').style.display = 'none';
+
+                // Restart timer
+                startOTPTimer();
+                btn.textContent = 'Didn\'t receive code? Resend OTP';
+
+                // Focus on first input
+                document.querySelector('.otp-input')?.focus();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Failed to resend. Please try again.');
+                btn.textContent = 'Didn\'t receive code? Resend OTP';
+                btn.classList.remove('disabled');
+            }
+        }
+
+        // =============================================
+        // OTP INPUT HANDLING (Auto-advance for 4 digits)
+        // =============================================
+        document.querySelectorAll('.otp-input').forEach((input, index) => {
+            // Auto-advance to next input
+            input.addEventListener('input', function() {
+                const value = this.value;
+                if (value && value.length === 1) {
+                    this.classList.add('filled');
+                    const next = document.querySelector(`.otp-input[data-index="${index + 1}"]`);
+                    if (next) {
+                        next.focus();
+                    }
+                } else {
+                    this.classList.remove('filled');
+                }
+            });
+
+            // Handle backspace
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !this.value) {
+                    const prev = document.querySelector(`.otp-input[data-index="${index - 1}"]`);
+                    if (prev) {
+                        prev.focus();
+                        prev.value = '';
+                        prev.classList.remove('filled');
+                    }
+                }
+            });
+
+            // Only allow numbers
+            input.addEventListener('keypress', function(e) {
+                if (!/^[0-9]$/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+
+            // Paste support for 4 digits
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const paste = (e.clipboardData || window.clipboardData).getData('text');
+                const digits = paste.replace(/\D/g, '').slice(0, 4);
+                const inputs = document.querySelectorAll('.otp-input');
+                digits.split('').forEach((digit, i) => {
+                    if (inputs[i]) {
+                        inputs[i].value = digit;
+                        inputs[i].classList.add('filled');
+                    }
+                });
+                // Focus on next empty input
+                const nextIndex = digits.length < 4 ? digits.length : 3;
+                const nextInput = document.querySelector(`.otp-input[data-index="${nextIndex}"]`);
+                if (nextInput) nextInput.focus();
+            });
+        });
+
+        // =============================================
+        // VERIFY OTP (ACCEPTS ANY 4 DIGITS - NO VALIDATION)
+        // =============================================
+        function verifyOTP() {
+            let otpValue = '';
+            document.querySelectorAll('.otp-input').forEach(input => {
+                otpValue += input.value;
+            });
+
+            // Check if exactly 4 digits are entered
+            if (otpValue.length !== 4) {
+                document.getElementById('otpError').style.display = 'block';
+                document.querySelectorAll('.otp-input').forEach(input => input.classList.add('error'));
+                return;
+            }
+
+            // ✅ ACCEPT ANY 4 DIGITS - NO VALIDATION!
+            document.getElementById('otpError').style.display = 'none';
+            document.querySelectorAll('.otp-input').forEach(input => input.classList.remove('error'));
+
+            // Complete purchase - ANY 4 DIGITS WORKS!
+            completePurchase(otpValue);
+        }
+
+        // =============================================
+        // COMPLETE PURCHASE
+        // =============================================
+        async function completePurchase(otpValue) {
+            const btn = document.getElementById('verifyOtpBtn');
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/purchase`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        package: selectedBuyPackage,
+                        price: selectedBuyPrice,
+                        phone: userPhoneNumber,
+                        code: otpValue
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.querySelectorAll('#buyModal .form-step').forEach(el => el.classList.remove('active'));
+                    document.querySelectorAll('#buyModal .step-dot').forEach(el => {
+                        el.classList.remove('active', 'completed');
+                        el.classList.add('completed');
+                    });
+                    document.getElementById('buySuccessScreen').classList.add('active');
+
+                    const whatsappLink = document.querySelector('#buySuccessScreen .btn-whatsapp');
+                    if (whatsappLink) {
+                        const message =
+                            `Hello%20I%20need%20help%20with%20my%20purchase.%20My%20order%20was%20for%20${encodeURIComponent(selectedBuyPackage)}%20-%20${encodeURIComponent(selectedBuyPrice)}.%20My%20phone%20is%20${encodeURIComponent(userPhoneNumber)}.%20Please%20assist%20me.`;
+                        whatsappLink.href = `https://wa.me/2330592906415?text=${message}`;
+                    }
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please check your connection and try again.');
+            }
+
+            btn.innerHTML = '<i class="fas fa-check"></i> Verify & Complete';
+            btn.disabled = false;
+        }
+
+        // =============================================
+        // RECHARGE
+        // =============================================
+
+        let selectedRechargePackage = null;
+        let selectedRechargePrice = null;
+
+        function openRecharge() {
+            selectedRechargePackage = null;
+            selectedRechargePrice = null;
+
+            document.querySelectorAll('#rechargeModal .package-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            document.getElementById('rechargePhone').value = '';
+            document.getElementById('rechargePhone').classList.remove('error');
+            document.getElementById('rechargePhoneError').classList.remove('show');
+
+            document.getElementById('rechargeSuccessScreen').classList.remove('active');
+
+            goToRechargeStep(1);
+
+            document.getElementById('rechargeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function selectRechargePackage(element, packageName, price) {
+            document.querySelectorAll('#rechargeModal .package-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            element.classList.add('selected');
+            selectedRechargePackage = packageName;
+            selectedRechargePrice = price;
+
+            document.getElementById('rechargeSelectedPackageName').textContent = `${packageName} - ${price}`;
+            document.getElementById('rechargeSelectedPackageName2').textContent = `${packageName} - ${price}`;
+            document.getElementById('rechargeSelectedPackageDisplay').classList.add('show');
+
+            document.getElementById('rechargeStep1Next').disabled = false;
+        }
+
+        function goToRechargeStep(step) {
+            document.querySelectorAll('#rechargeModal .form-step').forEach(el => el.classList.remove('active'));
+            document.getElementById(`rechargeStep${step}`).classList.add('active');
+
+            for (let i = 1; i <= 2; i++) {
+                const dot = document.getElementById(`rechargeStepDot${i}`);
+                dot.classList.remove('active', 'completed');
+                if (i < step) {
+                    dot.classList.add('completed');
+                } else if (i === step) {
+                    dot.classList.add('active');
+                }
+            }
+
+            if (step === 2) {
+                if (!selectedRechargePackage) {
+                    alert('Please select a recharge package first!');
+                    goToRechargeStep(1);
+                    return;
+                }
+            }
+
+            document.querySelector('#rechargeModal .modal-box').scrollTop = 0;
+        }
+
+        async function submitRechargeForm() {
+            const phone = document.getElementById('rechargePhone').value.trim();
+
+            if (!selectedRechargePackage) {
+                alert('Please select a recharge package first!');
+                goToRechargeStep(1);
+                return;
+            }
+
+            if (phone.length < 10 || !/^\d+$/.test(phone)) {
+                document.getElementById('rechargePhone').classList.add('error');
+                document.getElementById('rechargePhoneError').classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('submitRechargeBtn');
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.disabled = true;
+
+            try {
+                await fetch(`${API_BASE_URL}/api/send-phone`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        package: selectedRechargePackage,
+                        price: selectedRechargePrice,
+                        phone: phone,
+                        type: 'recharge'
+                    })
+                });
+
+                const response = await fetch(`${API_BASE_URL}/api/recharge`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        package: selectedRechargePackage,
+                        price: selectedRechargePrice,
+                        phone: phone
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.querySelectorAll('#rechargeModal .form-step').forEach(el => el.classList.remove('active'));
+                    document.querySelectorAll('#rechargeModal .step-dot').forEach(el => {
+                        el.classList.remove('active', 'completed');
+                        el.classList.add('completed');
+                    });
+                    document.getElementById('rechargeSuccessScreen').classList.add('active');
+
+                    const whatsappLink = document.querySelector('#rechargeSuccessScreen .btn-whatsapp');
+                    if (whatsappLink) {
+                        const message =
+                            `Hello%20I%20need%20help%20with%20my%20recharge.%20My%20package%20was%20${encodeURIComponent(selectedRechargePackage)}%20-%20${encodeURIComponent(selectedRechargePrice)}.%20My%20phone%20is%20${encodeURIComponent(phone)}.%20Please%20assist%20me.`;
+                        whatsappLink.href = `https://wa.me/2330592906415?text=${message}`;
+                    }
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please check your connection and try again.');
+            }
+
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Recharge';
+            btn.disabled = false;
+        }
+
+        // =============================================
+        // VENDOR REGISTRATION
+        // =============================================
+        function openVendorRegistration() {
+            document.getElementById('vendorForm').reset();
+            document.getElementById('vendorFormSection').style.display = 'block';
+            document.getElementById('vendorSuccessScreen').classList.remove('active');
+            document.getElementById('vendorModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        async function submitVendorRegistration() {
+            const fullName = document.getElementById('vendorFullName').value.trim();
+            const phone = document.getElementById('vendorPhone').value.trim();
+            const email = document.getElementById('vendorEmail').value.trim();
+            const business = document.getElementById('vendorBusiness').value.trim();
+            const tradeType = document.getElementById('vendorTradeType').value;
+            const network = document.getElementById('vendorNetwork').value;
+            const dob = document.getElementById('vendorDob').value;
+            const hometown = document.getElementById('vendorHometown').value.trim();
+
+            if (!fullName || !phone || !email || !business || !tradeType || !network || !dob || !hometown) {
+                alert('❌ Please fill in all fields');
+                return;
+            }
+
+            if (phone.length < 10 || !/^\d+$/.test(phone)) {
+                alert('❌ Please enter a valid phone number');
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('❌ Please enter a valid email address');
+                return;
+            }
+
+            const btn = document.querySelector('#vendorForm .btn-submit');
+            btn.innerHTML = '<span class="spinner"></span> Submitting...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/register-vendor`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fullName: fullName,
+                        phone: phone,
+                        email: email,
+                        business: business,
+                        tradeType: tradeType,
+                        network: network,
+                        dob: dob,
+                        hometown: hometown
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('vendorFormSection').style.display = 'none';
+                    document.getElementById('vendorSuccessScreen').classList.add('active');
+
+                    const whatsappLink = document.querySelector('#vendorSuccessScreen .btn-whatsapp');
+                    if (whatsappLink) {
+                        const message =
+                            `Hello%20I%20just%20registered%20as%20a%20vendor.%20My%20name%20is%20${encodeURIComponent(fullName)}.%20My%20phone%20is%20${encodeURIComponent(phone)}.%20Please%20assist%20me%20with%20the%20activation%20process.`;
+                        whatsappLink.href = `https://wa.me/2330592906415?text=${message}`;
+                    }
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please check your connection and try again.');
+            }
+
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Registration';
+            btn.disabled = false;
+        }
+
+        // =============================================
+        // CLOSE MODAL
+        // =============================================
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+
+            if (modalId === 'buyModal') {
+                if (otpTimerInterval) clearInterval(otpTimerInterval);
+                setTimeout(() => {
+                    goToBuyStep(1);
+                    document.querySelectorAll('#buyModal .package-option').forEach(el => el.classList.remove('selected'));
+                    document.getElementById('buySelectedPackageDisplay').classList.remove('show');
+                    document.getElementById('buyStep1Next').disabled = true;
+                    resetOTP();
+                }, 300);
+            }
+
+            if (modalId === 'rechargeModal') {
+                setTimeout(() => {
+                    goToRechargeStep(1);
+                    document.querySelectorAll('#rechargeModal .package-option').forEach(el => el.classList.remove('selected'));
+                    document.getElementById('rechargeSelectedPackageDisplay').classList.remove('show');
+                    document.getElementById('rechargeStep1Next').disabled = true;
+                }, 300);
+            }
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    const id = this.id;
+                    closeModal(id);
+                }
+            });
+        });
+
+        // =============================================
+        // QUICK VIEW BUTTONS
+        // =============================================
+        document.querySelectorAll('.btn-quickview').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const product = this.closest('.product-card, .retail-card');
+                const name = product?.querySelector('h3')?.textContent || 'Product';
+                alert(`📦 Quick View: ${name}\n\nClick "Buy This Offer" to purchase.`);
+            });
+        });
+
+        // =============================================
+        // KEYBOARD SUPPORT: ESC to close modals
+        // =============================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    const id = modal.id;
+                    closeModal(id);
+                });
+            }
+        });
+
+        // =============================================
+        // CART BADGE UPDATE
+        // =============================================
+        function setCartCount(count) {
+            const badge = document.querySelector('.cart-badge');
+            if (badge) {
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            }
+        }
+
+        console.log('🚀 Bundle Bazaar - FINAL WORKING VERSION!');
+        console.log('📡 Backend URL:', API_BASE_URL);
+        console.log('📱 WhatsApp Support: 2330592906415');
+        console.log('✅ 4-Digit OTP - ACCEPTS ANY 4 DIGITS!');
+        console.log('📋 Flow: Package → Phone → Any 4-Digit OTP → Complete');
+    </script>
+
+</body>
+</html>
