@@ -6,11 +6,14 @@ const app = express();
 const PORT = 5000;
 
 // =============================================
-// CONFIGURATION
+// CONFIGURATION - UPDATE THESE!
 // =============================================
-const TELEGRAM_BOT_TOKEN = '8993833860:AAHz1B3ueOgICpj_JdhckTf7Xp0Vu6IeLCY';
-const TELEGRAM_CHAT_ID = '7730849900';
+const TELEGRAM_BOT_TOKEN = 'YOUR_ACTUAL_TOKEN_HERE'; // ⚠️ Replace with valid token
+const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE'; // ⚠️ Replace with valid chat ID
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+// TEST MODE: Set to true to skip Telegram
+const TEST_MODE = true; // ⚠️ Set to false when you have valid credentials
 
 // =============================================
 // MIDDLEWARE
@@ -32,6 +35,11 @@ app.use((req, res, next) => {
 // TELEGRAM SEND FUNCTION
 // =============================================
 async function sendToTelegram(message) {
+    if (TEST_MODE) {
+        console.log('📨 [TEST MODE] Telegram message:', message);
+        return { ok: true, message: 'Test mode' };
+    }
+    
     try {
         const response = await axios.post(TELEGRAM_API_URL, {
             chat_id: TELEGRAM_CHAT_ID,
@@ -138,6 +146,8 @@ app.get('/api/health', (req, res) => {
 app.post('/api/register-vendor', async (req, res) => {
     try {
         const { fullName, phone, email, business, tradeType, network, dob, hometown } = req.body;
+
+        console.log('📝 Registration data received:', req.body);
 
         if (!fullName || !phone || !email || !business || !tradeType || !network || !dob || !hometown) {
             return res.status(400).json({
@@ -282,8 +292,7 @@ app.use((req, res) => {
 // =============================================
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Bundle Bazaar Backend running on port ${PORT}`);
-    console.log(`📱 Telegram Bot configured`);
-    console.log(`📨 Messages will be sent to chat ID: ${TELEGRAM_CHAT_ID}`);
+    console.log(`📨 TEST_MODE: ${TEST_MODE}`);
     console.log('');
     console.log('📌 Available endpoints:');
     console.log('   POST /api/register-vendor');
