@@ -14,12 +14,18 @@ const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/send
 const TEST_MODE = false;
 
 // =============================================
-// ✅ FIXED CORS - ALLOW ALL ORIGINS
+// ✅ FIXED CORS - ALLOW YOUR FRONTEND DOMAINS
 // =============================================
 app.use(cors({
-    origin: '*', // ✅ Allow ALL origins
+    origin: [
+        'https://databundlesexchange.onrender.com',
+        'https://databundlesexchange-production-ca51.up.railway.app',
+        'http://localhost:5500',
+        'http://127.0.0.1:5500'
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    credentials: true
 }));
 
 // ✅ Handle preflight requests
