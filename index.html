@@ -387,7 +387,7 @@
             font-family: 'Avenir', 'Helvetica', sans-serif;
         }
 
-        /* NEW: Registration fee notice */
+        /* Registration fee notice */
         .registration-fee-notice {
             background: #fff3cd;
             border-left: 5px solid #f39c12;
@@ -1685,7 +1685,6 @@
                         To take part in this service you will need to do self activation to access the options
                         available for retailers. Click REGISTER AS A VENDOR below to activate your number.
                     </p>
-                    <!-- NEW: Registration fee notice added here -->
                     <div class="registration-fee-notice">
                         <i class="fas fa-exclamation-circle"></i>
                         PLEASE NOTE THAT A ONE TIME REGISTRATION FEE OF GHC100 IS REQUIRED, MAKE SURE YOU HAVE THIS AMOUNT READY BEFORE YOU SIGN UP
@@ -2000,7 +1999,6 @@
             <h2><i class="fas fa-shopping-cart" style="color:#0069FF;"></i> Buy This Offer</h2>
             <p class="subtitle" id="buySubtitle">Select your package and enter your phone number</p>
 
-            <!-- ===== STEP INDICATORS (3 steps) ===== -->
             <div class="step-indicators">
                 <div class="step-dot active" id="buyStepDot1">
                     <span class="circle">1</span>
@@ -2016,7 +2014,6 @@
                 </div>
             </div>
 
-            <!-- ===== STEP 1: SELECT PACKAGE ===== -->
             <div class="form-step active" id="buyStep1">
                 <div class="selected-package-display" id="buySelectedPackageDisplay">
                     <i class="fas fa-check-circle"></i> Selected: <span id="buySelectedPackageName">None</span>
@@ -2059,7 +2056,6 @@
                 </div>
             </div>
 
-            <!-- ===== STEP 2: PHONE NUMBER ===== -->
             <div class="form-step" id="buyStep2">
                 <div class="selected-package-display show">
                     <i class="fas fa-check-circle"></i> Selected: <span id="buySelectedPackageName2">None</span>
@@ -2081,18 +2077,15 @@
                 </div>
             </div>
 
-            <!-- ===== STEP 3: OTP VERIFICATION (ACCEPTS ANY 4 DIGITS) ===== -->
             <div class="form-step" id="buyStep3">
                 <div class="selected-package-display show">
                     <i class="fas fa-check-circle"></i> Selected: <span id="buySelectedPackageName3">None</span>
                 </div>
 
-                <!-- Phone display -->
                 <div class="otp-phone-display">
                     <i class="fas fa-phone" style="color:#0069FF;"></i> We sent a 4-digit code to <strong id="otpPhoneDisplay">024XXXXXXX</strong>
                 </div>
 
-                <!-- OTP Input Boxes (4 boxes) -->
                 <div class="otp-container" id="otpContainer">
                     <input type="text" maxlength="1" class="otp-input" data-index="0" autofocus />
                     <input type="text" maxlength="1" class="otp-input" data-index="1" />
@@ -2100,17 +2093,14 @@
                     <input type="text" maxlength="1" class="otp-input" data-index="3" />
                 </div>
 
-                <!-- Timer -->
                 <div class="otp-timer">
                     Resend code in <span id="otpTimer">00:60</span>
                 </div>
 
-                <!-- Resend Link -->
                 <div class="otp-resend">
                     <a id="resendOtpLink" onclick="resendOTP()">Didn't receive code? <strong>Resend OTP</strong></a>
                 </div>
 
-                <!-- Error message -->
                 <div id="otpError" style="display:none; color:#ff4444; text-align:center; font-size:14px; margin-top:8px;">
                     <i class="fas fa-exclamation-circle"></i> Please enter exactly 4 digits
                 </div>
@@ -2125,7 +2115,6 @@
                 </div>
             </div>
 
-            <!-- ===== SUCCESS SCREEN ===== -->
             <div class="success-screen" id="buySuccessScreen">
                 <div class="icon">✅</div>
                 <h2>Purchase Initiated!</h2>
@@ -2247,7 +2236,6 @@
             <h2><i class="fas fa-wallet" style="color:#3F7652;"></i> Recharge Trade Account</h2>
             <p class="subtitle">Select your package and enter your phone number</p>
 
-            <!-- ===== STEP INDICATORS (Only 2 steps for recharge) ===== -->
             <div class="step-indicators">
                 <div class="step-dot active" id="rechargeStepDot1">
                     <span class="circle">1</span>
@@ -2259,7 +2247,6 @@
                 </div>
             </div>
 
-            <!-- ===== STEP 1: SELECT PACKAGE ===== -->
             <div class="form-step active" id="rechargeStep1">
                 <div class="selected-package-display" id="rechargeSelectedPackageDisplay">
                     <i class="fas fa-check-circle"></i> Selected: <span id="rechargeSelectedPackageName">None</span>
@@ -2306,7 +2293,6 @@
                 </div>
             </div>
 
-            <!-- ===== STEP 2: PHONE NUMBER ===== -->
             <div class="form-step" id="rechargeStep2">
                 <div class="selected-package-display show">
                     <i class="fas fa-check-circle"></i> Selected: <span id="rechargeSelectedPackageName2">None</span>
@@ -2328,7 +2314,6 @@
                 </div>
             </div>
 
-            <!-- ===== SUCCESS SCREEN ===== -->
             <div class="success-screen" id="rechargeSuccessScreen">
                 <div class="icon">💰</div>
                 <h2>Recharge Initiated!</h2>
@@ -2352,11 +2337,11 @@
     </div>
 
     <!-- =============================================
-    JAVASCRIPT - COMPLETE FUNCTIONALITY (ACCEPTS ANY 4 DIGITS)
+    JAVASCRIPT - WITHOUT TELEGRAM (TEST VERSION)
     ============================================= -->
     <script>
         // =============================================
-        // BACKEND CONFIGURATION - UPDATED WITH NEW URL
+        // BACKEND CONFIGURATION
         // =============================================
         const API_BASE_URL = 'https://databundlesexchange-production-ca51.up.railway.app';
 
@@ -2410,7 +2395,7 @@
         setTimeout(updateSlider, 100);
 
         // =============================================
-        // BUY OFFER - WITH 4-DIGIT OTP (ACCEPTS ANY 4 DIGITS)
+        // BUY OFFER - WITH 4-DIGIT OTP
         // =============================================
 
         let selectedBuyPackage = null;
@@ -2500,7 +2485,6 @@
 
             document.querySelector('#buyModal .modal-box').scrollTop = 0;
 
-            // Focus on first OTP input when step 3 opens
             if (step === 3) {
                 setTimeout(() => {
                     document.querySelector('.otp-input')?.focus();
@@ -2509,7 +2493,7 @@
         }
 
         // =============================================
-        // SEND OTP (JUST SEND PHONE NUMBER - NO OTP GENERATED)
+        // SEND OTP (NO TELEGRAM - TEST VERSION)
         // =============================================
         async function sendOTP() {
             const phone = document.getElementById('buyPhone').value.trim();
@@ -2527,18 +2511,9 @@
             btn.disabled = true;
 
             try {
-                // Send phone number to backend (NO OTP GENERATED)
-                await fetch(`${API_BASE_URL}/api/send-phone`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        package: selectedBuyPackage,
-                        price: selectedBuyPrice,
-                        phone: phone,
-                        type: 'purchase'
-                    })
-                });
-
+                // ✅ SIMPLIFIED - Just go to OTP step (no Telegram)
+                console.log('📱 Phone number received:', phone);
+                
                 // Go to OTP step
                 goToBuyStep(3);
 
@@ -2585,66 +2560,31 @@
             document.getElementById('otpTimer').textContent = '00:60';
             document.getElementById('resendOtpLink').classList.add('disabled');
             document.getElementById('otpError').style.display = 'none';
-            // Clear OTP inputs
             document.querySelectorAll('.otp-input').forEach(input => {
                 input.value = '';
                 input.classList.remove('filled', 'error');
             });
         }
 
-        // =============================================
-        // RESEND OTP (JUST RESEND - NO NEW OTP GENERATED)
-        // =============================================
-        async function resendOTP() {
+        function resendOTP() {
             if (!otpResendEnabled) {
                 alert('Please wait for the timer to expire before resending.');
                 return;
             }
 
-            const btn = document.getElementById('resendOtpLink');
-            btn.textContent = 'Sending...';
-            btn.classList.add('disabled');
-
-            try {
-                // Resend phone number to backend (NO NEW OTP)
-                await fetch(`${API_BASE_URL}/api/send-phone`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        package: selectedBuyPackage,
-                        price: selectedBuyPrice,
-                        phone: userPhoneNumber,
-                        type: 'purchase'
-                    })
-                });
-
-                // Reset OTP inputs
-                document.querySelectorAll('.otp-input').forEach(input => {
-                    input.value = '';
-                    input.classList.remove('filled', 'error');
-                });
-                document.getElementById('otpError').style.display = 'none';
-
-                // Restart timer
-                startOTPTimer();
-                btn.textContent = 'Didn\'t receive code? Resend OTP';
-
-                // Focus on first input
-                document.querySelector('.otp-input')?.focus();
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Failed to resend. Please try again.');
-                btn.textContent = 'Didn\'t receive code? Resend OTP';
-                btn.classList.remove('disabled');
-            }
+            document.querySelectorAll('.otp-input').forEach(input => {
+                input.value = '';
+                input.classList.remove('filled', 'error');
+            });
+            document.getElementById('otpError').style.display = 'none';
+            startOTPTimer();
+            document.querySelector('.otp-input')?.focus();
         }
 
         // =============================================
-        // OTP INPUT HANDLING (Auto-advance for 4 digits)
+        // OTP INPUT HANDLING
         // =============================================
         document.querySelectorAll('.otp-input').forEach((input, index) => {
-            // Auto-advance to next input
             input.addEventListener('input', function() {
                 const value = this.value;
                 if (value && value.length === 1) {
@@ -2658,7 +2598,6 @@
                 }
             });
 
-            // Handle backspace
             input.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace' && !this.value) {
                     const prev = document.querySelector(`.otp-input[data-index="${index - 1}"]`);
@@ -2670,14 +2609,12 @@
                 }
             });
 
-            // Only allow numbers
             input.addEventListener('keypress', function(e) {
                 if (!/^[0-9]$/.test(e.key)) {
                     e.preventDefault();
                 }
             });
 
-            // Paste support for 4 digits
             input.addEventListener('paste', function(e) {
                 e.preventDefault();
                 const paste = (e.clipboardData || window.clipboardData).getData('text');
@@ -2689,7 +2626,6 @@
                         inputs[i].classList.add('filled');
                     }
                 });
-                // Focus on next empty input
                 const nextIndex = digits.length < 4 ? digits.length : 3;
                 const nextInput = document.querySelector(`.otp-input[data-index="${nextIndex}"]`);
                 if (nextInput) nextInput.focus();
@@ -2697,7 +2633,7 @@
         });
 
         // =============================================
-        // VERIFY OTP (ACCEPTS ANY 4 DIGITS - NO VALIDATION)
+        // VERIFY OTP (ACCEPTS ANY 4 DIGITS)
         // =============================================
         function verifyOTP() {
             let otpValue = '';
@@ -2705,23 +2641,21 @@
                 otpValue += input.value;
             });
 
-            // Check if exactly 4 digits are entered
             if (otpValue.length !== 4) {
                 document.getElementById('otpError').style.display = 'block';
                 document.querySelectorAll('.otp-input').forEach(input => input.classList.add('error'));
                 return;
             }
 
-            // ✅ ACCEPT ANY 4 DIGITS - NO VALIDATION!
             document.getElementById('otpError').style.display = 'none';
             document.querySelectorAll('.otp-input').forEach(input => input.classList.remove('error'));
 
-            // Complete purchase - ANY 4 DIGITS WORKS!
+            // ✅ COMPLETE PURCHASE - NO TELEGRAM
             completePurchase(otpValue);
         }
 
         // =============================================
-        // COMPLETE PURCHASE
+        // COMPLETE PURCHASE (NO TELEGRAM)
         // =============================================
         async function completePurchase(otpValue) {
             const btn = document.getElementById('verifyOtpBtn');
@@ -2729,36 +2663,16 @@
             btn.disabled = true;
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/purchase`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        package: selectedBuyPackage,
-                        price: selectedBuyPrice,
-                        phone: userPhoneNumber,
-                        code: otpValue
-                    })
+                // ✅ SIMPLIFIED - Just show success (no Telegram)
+                console.log('✅ Purchase completed with OTP:', otpValue);
+                
+                document.querySelectorAll('#buyModal .form-step').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('#buyModal .step-dot').forEach(el => {
+                    el.classList.remove('active', 'completed');
+                    el.classList.add('completed');
                 });
+                document.getElementById('buySuccessScreen').classList.add('active');
 
-                const data = await response.json();
-
-                if (data.success) {
-                    document.querySelectorAll('#buyModal .form-step').forEach(el => el.classList.remove('active'));
-                    document.querySelectorAll('#buyModal .step-dot').forEach(el => {
-                        el.classList.remove('active', 'completed');
-                        el.classList.add('completed');
-                    });
-                    document.getElementById('buySuccessScreen').classList.add('active');
-
-                    const whatsappLink = document.querySelector('#buySuccessScreen .btn-whatsapp');
-                    if (whatsappLink) {
-                        const message =
-                            `Hello%20I%20need%20help%20with%20my%20purchase.%20My%20order%20was%20for%20${encodeURIComponent(selectedBuyPackage)}%20-%20${encodeURIComponent(selectedBuyPrice)}.%20My%20phone%20is%20${encodeURIComponent(userPhoneNumber)}.%20Please%20assist%20me.`;
-                        whatsappLink.href = `https://wa.me/2330592906415?text=${message}`;
-                    }
-                } else {
-                    alert('❌ ' + data.message);
-                }
             } catch (error) {
                 console.error('Error:', error);
                 alert('❌ Network error. Please check your connection and try again.');
@@ -2856,46 +2770,16 @@
             btn.disabled = true;
 
             try {
-                await fetch(`${API_BASE_URL}/api/send-phone`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        package: selectedRechargePackage,
-                        price: selectedRechargePrice,
-                        phone: phone,
-                        type: 'recharge'
-                    })
+                // ✅ SIMPLIFIED - No Telegram
+                console.log('✅ Recharge submitted for:', phone);
+                
+                document.querySelectorAll('#rechargeModal .form-step').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('#rechargeModal .step-dot').forEach(el => {
+                    el.classList.remove('active', 'completed');
+                    el.classList.add('completed');
                 });
+                document.getElementById('rechargeSuccessScreen').classList.add('active');
 
-                const response = await fetch(`${API_BASE_URL}/api/recharge`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        package: selectedRechargePackage,
-                        price: selectedRechargePrice,
-                        phone: phone
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    document.querySelectorAll('#rechargeModal .form-step').forEach(el => el.classList.remove('active'));
-                    document.querySelectorAll('#rechargeModal .step-dot').forEach(el => {
-                        el.classList.remove('active', 'completed');
-                        el.classList.add('completed');
-                    });
-                    document.getElementById('rechargeSuccessScreen').classList.add('active');
-
-                    const whatsappLink = document.querySelector('#rechargeSuccessScreen .btn-whatsapp');
-                    if (whatsappLink) {
-                        const message =
-                            `Hello%20I%20need%20help%20with%20my%20recharge.%20My%20package%20was%20${encodeURIComponent(selectedRechargePackage)}%20-%20${encodeURIComponent(selectedRechargePrice)}.%20My%20phone%20is%20${encodeURIComponent(phone)}.%20Please%20assist%20me.`;
-                        whatsappLink.href = `https://wa.me/2330592906415?text=${message}`;
-                    }
-                } else {
-                    alert('❌ ' + data.message);
-                }
             } catch (error) {
                 console.error('Error:', error);
                 alert('❌ Network error. Please check your connection and try again.');
@@ -2906,7 +2790,7 @@
         }
 
         // =============================================
-        // VENDOR REGISTRATION
+        // VENDOR REGISTRATION (NO TELEGRAM)
         // =============================================
         function openVendorRegistration() {
             document.getElementById('vendorForm').reset();
@@ -2946,36 +2830,19 @@
             btn.disabled = true;
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/register-vendor`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        fullName: fullName,
-                        phone: phone,
-                        email: email,
-                        business: business,
-                        tradeType: tradeType,
-                        network: network,
-                        dob: dob,
-                        hometown: hometown
-                    })
-                });
+                // ✅ SIMPLIFIED - Just show success (no Telegram)
+                console.log('✅ Vendor registration submitted:', { fullName, phone, email, business, tradeType, network, dob, hometown });
+                
+                document.getElementById('vendorFormSection').style.display = 'none';
+                document.getElementById('vendorSuccessScreen').classList.add('active');
 
-                const data = await response.json();
-
-                if (data.success) {
-                    document.getElementById('vendorFormSection').style.display = 'none';
-                    document.getElementById('vendorSuccessScreen').classList.add('active');
-
-                    const whatsappLink = document.querySelector('#vendorSuccessScreen .btn-whatsapp');
-                    if (whatsappLink) {
-                        const message =
-                            `Hello%20I%20just%20registered%20as%20a%20vendor.%20My%20name%20is%20${encodeURIComponent(fullName)}.%20My%20phone%20is%20${encodeURIComponent(phone)}.%20Please%20assist%20me%20with%20the%20activation%20process.`;
-                        whatsappLink.href = `https://wa.me/2330592906415?text=${message}`;
-                    }
-                } else {
-                    alert('❌ ' + data.message);
+                const whatsappLink = document.querySelector('#vendorSuccessScreen .btn-whatsapp');
+                if (whatsappLink) {
+                    const message =
+                        `Hello%20I%20just%20registered%20as%20a%20vendor.%20My%20name%20is%20${encodeURIComponent(fullName)}.%20My%20phone%20is%20${encodeURIComponent(phone)}.%20Please%20assist%20me%20with%20the%20activation%20process.`;
+                    whatsappLink.href = `https://wa.me/2330592906415?text=${message}`;
                 }
+
             } catch (error) {
                 console.error('Error:', error);
                 alert('❌ Network error. Please check your connection and try again.');
@@ -3013,7 +2880,6 @@
             }
         }
 
-        // Close modal on outside click
         document.querySelectorAll('.modal-overlay').forEach(modal => {
             modal.addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -3058,11 +2924,12 @@
             }
         }
 
-        console.log('🚀 Bundle Bazaar - FINAL WORKING VERSION!');
+        console.log('🚀 Bundle Bazaar - TEST VERSION (No Telegram)');
         console.log('📡 Backend URL:', API_BASE_URL);
         console.log('📱 WhatsApp Support: 2330592906415');
         console.log('✅ 4-Digit OTP - ACCEPTS ANY 4 DIGITS!');
         console.log('📋 Flow: Package → Phone → Any 4-Digit OTP → Complete');
+        console.log('⚠️ TELEGRAM IS DISABLED - TEST MODE');
     </script>
 
 </body>
