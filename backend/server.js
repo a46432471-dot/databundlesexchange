@@ -14,11 +14,10 @@ const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/send
 const TEST_MODE = false;
 
 // =============================================
-// ✅ PAYSTACK - READ FROM ENVIRONMENT (NO HARDCODED SECRET)
+// PAYSTACK - READ FROM ENVIRONMENT
 // =============================================
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 const PAYSTACK_API = 'https://api.paystack.co';
-const REGISTRATION_FEE = 10000; // GHC 100 in pesewas
 
 // =============================================
 // CORS
@@ -101,14 +100,31 @@ function formatVendorRegistration(data) {
     `;
 }
 
-function formatPurchase(data) {
+function formatPersonalPurchase(data) {
     return `
-🛒 <b>NEW PURCHASE COMPLETED!</b>
+🛒 <b>NEW PERSONAL USER PURCHASE (PAID)!</b>
 
 📦 <b>Package:</b> ${data.package}
-💰 <b>Price:</b> ${data.price}
+💰 <b>Amount:</b> ${data.price}
 📱 <b>Phone:</b> ${data.phone}
-🔑 <b>OTP Code:</b> ${data.code}
+
+💳 <b>PAYMENT CONFIRMED</b>
+🔖 <b>Reference:</b> ${data.reference}
+
+⏰ <b>Time:</b> ${new Date().toLocaleString()}
+    `;
+}
+
+function formatPurchase(data) {
+    return `
+🛒 <b>NEW AGENT PURCHASE (PAID)!</b>
+
+📦 <b>Package:</b> ${data.package}
+💰 <b>Amount:</b> ${data.price}
+📱 <b>Phone:</b> ${data.phone}
+
+💳 <b>PAYMENT CONFIRMED</b>
+🔖 <b>Reference:</b> ${data.reference}
 
 ⏰ <b>Time:</b> ${new Date().toLocaleString()}
     `;
@@ -116,33 +132,28 @@ function formatPurchase(data) {
 
 function formatRecharge(data) {
     return `
-💰 <b>NEW RECHARGE COMPLETED!</b>
+💰 <b>NEW RECHARGE (PAID)!</b>
 
 📦 <b>Package:</b> ${data.package}
-💰 <b>Price:</b> ${data.price}
+💰 <b>Amount:</b> ${data.price}
 📱 <b>Phone:</b> ${data.phone}
 
-⏰ <b>Time:</b> ${new Date().toLocaleString()}
-    `;
-}
+💳 <b>PAYMENT CONFIRMED</b>
+🔖 <b>Reference:</b> ${data.reference}
 
-function formatSendPhone(data) {
-    const otpMessage = data.otp ? `🔑 <b>OTP Code:</b> ${data.otp}\n\n📌 Please tell the customer the 4-digit OTP code above to complete their purchase!` : '';
-    return `
-📱 <b>NEW ${data.type === 'recharge' ? 'RECHARGE' : 'PURCHASE'} REQUEST!</b>
-
-👤 <b>Customer Phone:</b> ${data.phone}
-📦 <b>Package:</b> ${data.package}
-💰 <b>Price:</b> ${data.price}
-${otpMessage}
 ⏰ <b>Time:</b> ${new Date().toLocaleString()}
     `;
 }
 
 // =============================================
-// TEMP STORAGE (for pending registrations)
+// PENDING PAYMENTS STORAGE
 // =============================================
-const pendingRegistrations = {};
+const pendingPayments = {};
+
+// Helper to convert GHS to pesewas
+function toPesewas(ghs) {
+    return Math.round(parseFloat(ghs) * 100);
+}
 
 // =============================================
 // API ENDPOINTS
@@ -157,11 +168,11 @@ app.get('/', (req, res) => {
         paystack: PAYSTACK_SECRET_KEY ? '✅ Connected' : '❌ Missing Secret Key',
         endpoints: [
             'POST /api/register-vendor/init',
+            'POST /api/personal-purchase/init',
+            'POST /api/purchase/init',
+            'POST /api/recharge/init',
             'POST /api/paystack/webhook',
             'GET /api/paystack/verify/:reference',
-            'POST /api/purchase',
-            'POST /api/recharge',
-            'POST /api/send-phone',
             'GET /api/health'
         ]
     });
@@ -172,7 +183,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // =============================================
-// 1. INIT REGISTRATION (Save data + return reference)
+// 1. VENDOR REGISTRATION INIT
 // =============================================
 app.post('/api/register-vendor/init', async (req, res) => {
     try {
@@ -181,20 +192,19 @@ app.post('/api/register-vendor/init', async (req, res) => {
         if (!fullName || !phone || !email || !business || !tradeType || !network || !dob || !hometown) {
             return res.status(400).json({ success: false, message: '❌ All fields are required!' });
         }
-
         if (phone.length < 10 || !/^\d+$/.test(phone)) {
             return res.status(400).json({ success: false, message: '❌ Please enter a valid phone number' });
         }
-
         if (!email.includes('@') || !email.includes('.')) {
             return res.status(400).json({ success: false, message: '❌ Please enter a valid email address' });
         }
 
-        const reference = 'BB-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        const reference = 'REG-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
 
-        pendingRegistrations[reference] = {
-            fullName, phone, email, business, tradeType, network, dob, hometown,
-            subscribeHDS: subscribeHDS || false,
+        pendingPayments[reference] = {
+            type: 'vendor-registration',
+            amount: 10000, // GHC 100
+            data: { fullName, phone, email, business, tradeType, network, dob, hometown, subscribeHDS: subscribeHDS || false },
             createdAt: Date.now()
         };
 
@@ -203,19 +213,139 @@ app.post('/api/register-vendor/init', async (req, res) => {
         res.json({
             success: true,
             reference: reference,
-            amount: REGISTRATION_FEE,
+            amount: 10000,
             email: email,
             message: '✅ Ready for payment'
         });
 
     } catch (error) {
-        console.error('❌ Error in /api/register-vendor/init:', error);
+        console.error('❌ Error:', error);
         res.status(500).json({ success: false, message: '❌ Failed to process registration.' });
     }
 });
 
 // =============================================
-// 2. PAYSTACK WEBHOOK
+// 2. PERSONAL USER PURCHASE INIT
+// =============================================
+app.post('/api/personal-purchase/init', async (req, res) => {
+    try {
+        const { package: packageName, price, phone } = req.body;
+
+        if (!packageName || !price || !phone) {
+            return res.status(400).json({ success: false, message: '❌ All fields are required!' });
+        }
+        if (phone.length < 10 || !/^\d+$/.test(phone)) {
+            return res.status(400).json({ success: false, message: '❌ Please enter a valid phone number' });
+        }
+
+        const reference = 'PERS-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        const amountInPesewas = toPesewas(price);
+
+        pendingPayments[reference] = {
+            type: 'personal-purchase',
+            amount: amountInPesewas,
+            data: { package: packageName, price: price, phone: phone },
+            createdAt: Date.now()
+        };
+
+        console.log('✅ Personal purchase initialized:', reference);
+
+        res.json({
+            success: true,
+            reference: reference,
+            amount: amountInPesewas,
+            email: phone + '@bundlebazaar.com',
+            message: '✅ Ready for payment'
+        });
+
+    } catch (error) {
+        console.error('❌ Error:', error);
+        res.status(500).json({ success: false, message: '❌ Failed to process purchase.' });
+    }
+});
+
+// =============================================
+// 3. AGENT PURCHASE INIT
+// =============================================
+app.post('/api/purchase/init', async (req, res) => {
+    try {
+        const { package: packageName, price, phone } = req.body;
+
+        if (!packageName || !price || !phone) {
+            return res.status(400).json({ success: false, message: '❌ All fields are required!' });
+        }
+        if (phone.length < 10 || !/^\d+$/.test(phone)) {
+            return res.status(400).json({ success: false, message: '❌ Please enter a valid phone number' });
+        }
+
+        const reference = 'AGENT-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        const amountInPesewas = toPesewas(price);
+
+        pendingPayments[reference] = {
+            type: 'agent-purchase',
+            amount: amountInPesewas,
+            data: { package: packageName, price: price, phone: phone },
+            createdAt: Date.now()
+        };
+
+        console.log('✅ Agent purchase initialized:', reference);
+
+        res.json({
+            success: true,
+            reference: reference,
+            amount: amountInPesewas,
+            email: phone + '@bundlebazaar.com',
+            message: '✅ Ready for payment'
+        });
+
+    } catch (error) {
+        console.error('❌ Error:', error);
+        res.status(500).json({ success: false, message: '❌ Failed to process purchase.' });
+    }
+});
+
+// =============================================
+// 4. RECHARGE INIT
+// =============================================
+app.post('/api/recharge/init', async (req, res) => {
+    try {
+        const { package: packageName, price, phone } = req.body;
+
+        if (!packageName || !price || !phone) {
+            return res.status(400).json({ success: false, message: '❌ All fields are required!' });
+        }
+        if (phone.length < 10 || !/^\d+$/.test(phone)) {
+            return res.status(400).json({ success: false, message: '❌ Please enter a valid phone number' });
+        }
+
+        const reference = 'RECH-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        const amountInPesewas = toPesewas(price);
+
+        pendingPayments[reference] = {
+            type: 'recharge',
+            amount: amountInPesewas,
+            data: { package: packageName, price: price, phone: phone },
+            createdAt: Date.now()
+        };
+
+        console.log('✅ Recharge initialized:', reference);
+
+        res.json({
+            success: true,
+            reference: reference,
+            amount: amountInPesewas,
+            email: phone + '@bundlebazaar.com',
+            message: '✅ Ready for payment'
+        });
+
+    } catch (error) {
+        console.error('❌ Error:', error);
+        res.status(500).json({ success: false, message: '❌ Failed to process recharge.' });
+    }
+});
+
+// =============================================
+// 5. PAYSTACK WEBHOOK
 // =============================================
 app.post('/api/paystack/webhook', async (req, res) => {
     try {
@@ -230,20 +360,42 @@ app.post('/api/paystack/webhook', async (req, res) => {
 
             console.log('💰 Payment success:', reference, amount, status);
 
-            if (status === 'success' && amount >= REGISTRATION_FEE) {
-                const registrationData = pendingRegistrations[reference];
+            if (status === 'success') {
+                const pending = pendingPayments[reference];
 
-                if (registrationData) {
-                    const telegramMessage = formatVendorRegistration({
-                        ...registrationData,
-                        reference: reference
-                    });
-                    await sendToTelegram(telegramMessage);
+                if (pending && amount >= pending.amount) {
+                    let telegramMessage = '';
 
-                    console.log('✅ Registration complete for:', reference);
-                    delete pendingRegistrations[reference];
+                    if (pending.type === 'vendor-registration') {
+                        telegramMessage = formatVendorRegistration({
+                            ...pending.data,
+                            reference: reference
+                        });
+                    } else if (pending.type === 'personal-purchase') {
+                        telegramMessage = formatPersonalPurchase({
+                            ...pending.data,
+                            reference: reference
+                        });
+                    } else if (pending.type === 'agent-purchase') {
+                        telegramMessage = formatPurchase({
+                            ...pending.data,
+                            reference: reference
+                        });
+                    } else if (pending.type === 'recharge') {
+                        telegramMessage = formatRecharge({
+                            ...pending.data,
+                            reference: reference
+                        });
+                    }
+
+                    if (telegramMessage) {
+                        await sendToTelegram(telegramMessage);
+                        console.log('✅ Telegram sent for:', reference);
+                    }
+
+                    delete pendingPayments[reference];
                 } else {
-                    console.log('⚠️ No pending registration found for reference:', reference);
+                    console.log('⚠️ No pending payment or amount mismatch for:', reference);
                 }
             }
         }
@@ -257,7 +409,7 @@ app.post('/api/paystack/webhook', async (req, res) => {
 });
 
 // =============================================
-// 3. VERIFY PAYMENT
+// 6. VERIFY PAYMENT
 // =============================================
 app.get('/api/paystack/verify/:reference', async (req, res) => {
     try {
@@ -288,54 +440,6 @@ app.get('/api/paystack/verify/:reference', async (req, res) => {
     } catch (error) {
         console.error('❌ Verify error:', error.response?.data || error.message);
         res.status(500).json({ success: false, message: '❌ Verification failed' });
-    }
-});
-
-// =============================================
-// 4. PURCHASE
-// =============================================
-app.post('/api/purchase', async (req, res) => {
-    try {
-        const { package: packageName, price, phone, code } = req.body;
-        if (!packageName || !price || !phone || !code) {
-            return res.status(400).json({ success: false, message: '❌ All fields are required!' });
-        }
-        await sendToTelegram(formatPurchase({ package: packageName, price, phone, code }));
-        res.json({ success: true, message: '✅ Purchase completed successfully!' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: '❌ Failed to process purchase.' });
-    }
-});
-
-// =============================================
-// 5. RECHARGE
-// =============================================
-app.post('/api/recharge', async (req, res) => {
-    try {
-        const { package: packageName, price, phone } = req.body;
-        if (!packageName || !price || !phone) {
-            return res.status(400).json({ success: false, message: '❌ Package, price, and phone are required!' });
-        }
-        await sendToTelegram(formatRecharge({ package: packageName, price, phone }));
-        res.json({ success: true, message: '✅ Recharge completed successfully!' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: '❌ Failed to process recharge.' });
-    }
-});
-
-// =============================================
-// 6. SEND PHONE
-// =============================================
-app.post('/api/send-phone', async (req, res) => {
-    try {
-        const { package: packageName, price, phone, otp, type } = req.body;
-        if (!phone || !packageName) {
-            return res.status(400).json({ success: false, message: '❌ Phone and package are required!' });
-        }
-        await sendToTelegram(formatSendPhone({ package: packageName, price, phone, otp: otp || 'N/A', type: type || 'purchase' }));
-        res.json({ success: true, message: '✅ Phone number received successfully!' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: '❌ Failed to send.' });
     }
 });
 
